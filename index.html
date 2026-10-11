@@ -167,6 +167,18 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .pickadd{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pickadd button{border:1px dashed var(--line);background:var(--bg);border-radius:10px;padding:12px;font-size:13px;text-align:center}
 
+/* calendar day editor */
+.calnav{display:flex;align-items:center;justify-content:center;gap:16px}
+.calnav button{border:0;background:var(--surface);width:34px;height:34px;border-radius:50%;font-size:16px;box-shadow:inset 0 0 0 1px var(--line);flex:none}
+.calnav span{font-size:14px;font-weight:700;min-width:80px;text-align:center}
+.caldaygrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cdwd{font-size:11px;color:var(--muted);text-align:center;padding-bottom:4px}
+.cdcell{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:8px;background:var(--bg);display:grid;place-items:center;padding:0;overflow:hidden}
+.cdcell.empty{border:0;background:transparent}
+.cdcell img{width:100%;height:100%;object-fit:cover;display:block}
+.cdcell.has::after{content:"×";position:absolute;top:2px;right:2px;width:14px;height:14px;border-radius:50%;background:rgba(20,22,20,.6);color:#fff;font-size:9px;display:grid;place-items:center;line-height:1}
+.cdnum{font-size:12px;color:var(--muted)}
+
 /* picker sheet */
 .sheet-bg{position:fixed;inset:0;background:rgba(20,22,20,.45);z-index:30;display:flex;align-items:flex-end;justify-content:center}
 .sheet{background:var(--surface);width:100%;max-width:460px;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:72vh;overflow:auto;box-sizing:border-box}
@@ -221,6 +233,19 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .pscatter-photo:nth-child(2){width:46cqw;top:34cqw;right:6cqw;transform:rotate(6deg)}
 .pscatter-photo:nth-child(3){width:42cqw;bottom:6cqw;left:20cqw;transform:rotate(-3deg)}
 .pscatter-cap{position:absolute;bottom:4cqw;right:6cqw;font-family:var(--f-mincho);font-size:3cqw;color:var(--paperink);opacity:.85;max-width:38cqw;text-align:right}
+.calmonth{display:flex;flex-direction:column}
+.cm-photo{flex:1.1;min-height:0}
+.cm-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.cm-rings{height:4cqw;margin:0 4cqw;background:repeating-linear-gradient(90deg,var(--paperline) 0 1.6cqw,transparent 1.6cqw 4cqw)}
+.cm-foot{display:flex;flex-direction:column;padding:4cqw 5cqw 5cqw;gap:1.6cqw}
+.cm-mo{display:flex;align-items:baseline;gap:1.4cqw;font-family:var(--f-latin)}
+.cm-mo b{font-size:8cqw;line-height:1;color:var(--seal)}
+.cm-mo small{font-size:2.8cqw;color:var(--papermuted)}
+.cm-wd{display:grid;grid-template-columns:repeat(7,1fr);font-size:2.2cqw;color:var(--papermuted);text-align:center;margin-bottom:.6cqw}
+.cm-wd span.we{color:var(--seal)}
+.cm-days{display:grid;grid-template-columns:repeat(7,1fr);row-gap:.5cqw;font-size:2.3cqw;text-align:center;font-variant-numeric:tabular-nums}
+.cm-days span{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:.6cqw;overflow:hidden}
+.cm-days span.has img{width:100%;height:100%;object-fit:cover;display:block}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
@@ -261,6 +286,21 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
         </div>
         <p class="hint">3枚以上、最大20枚まで選べます。選んだ順にページへ並びます。</p>
       </div>
+    </section>
+
+    <!-- CALENDAR (2027 day-by-day) -->
+    <section id="v-calendar" hidden>
+      <div class="edhead"><h2>壁掛けカレンダー 2027</h2><span id="calCount"></span></div>
+      <div class="calnav">
+        <button type="button" id="calPrev" aria-label="前の月">‹</button>
+        <span id="calMoLabel"></span>
+        <button type="button" id="calNext" aria-label="次の月">›</button>
+      </div>
+      <div class="panel">
+        <div class="caldaygrid" id="calDayGrid"></div>
+        <p class="hint">日付をタップして写真を追加。追加済みの日をタップすると削除できます。</p>
+      </div>
+      <button type="button" class="ghost" id="calToPreview">プレビューへ進む ›</button>
     </section>
 
     <!-- PREVIEW (flip-through) -->
@@ -382,9 +422,10 @@ const THEMES={
   year1:{title:'はじめての1年間',occ:'0歳・誕生から1年の記録',pattern:[1,'scatter',3],msg:'すくすく育ってくれてありがとう'},
   age3:{title:'わたしの3歳の思い出',occ:'3歳の成長記念',pattern:[1,2,'scatter'],msg:'大きくなったね、3歳おめでとう'},
   nursery:{title:'はじめての保育園',occ:'入園の記念に',pattern:[1,'scatter',3],msg:'はじめの一歩、いってらっしゃい'},
-  shichigosan:{title:'七五三の思い出',occ:'七五三のお祝い',pattern:['scatter',1,2],msg:'すこやかな成長を祝って'}
+  shichigosan:{title:'七五三の思い出',occ:'七五三のお祝い',pattern:['scatter',1,2],msg:'すこやかな成長を祝って'},
+  calendar:{title:'壁掛けカレンダー 2027',occ:'2027年・毎日に写真を追加',msg:'今年もたくさんの思い出を'}
 };
-const THEME_ORDER=['year1','age3','nursery','shichigosan'];
+const THEME_ORDER=['year1','age3','nursery','shichigosan','calendar'];
 const PAGE_CAP=20,MIN_PHOTOS=3;
 const CAPTIONS=['すてきな瞬間','お気に入りの1枚','やさしい時間','今日のできごと','大切な記録','ふとした表情'];
 const captionFor=n=>CAPTIONS[(n-1)%CAPTIONS.length];
@@ -394,7 +435,8 @@ const MOTIF={
   year1:'<path d="M32 52V30"/><path d="M32 34c-10-2-14-12-14-12s10-2 14 6"/><path d="M32 30c10-2 14-10 14-10s-9-1-14 6"/><circle cx="32" cy="16" r="5"/>',
   age3:'<circle cx="24" cy="22" r="12"/><circle cx="42" cy="17" r="9"/><path d="M24 34v19M42 26v13" stroke-width="1.6"/>',
   nursery:'<rect x="16" y="20" width="32" height="30" rx="6"/><path d="M22 20v-4a10 10 0 0 1 20 0v4"/><rect x="27" y="28" width="10" height="14" rx="2"/>',
-  shichigosan:'<path d="M32 50 8 28l14 2 10-18 10 18 14-2z"/><path d="M32 50V28"/>'
+  shichigosan:'<path d="M32 50 8 28l14 2 10-18 10 18 14-2z"/><path d="M32 50V28"/>',
+  calendar:'<rect x="12" y="14" width="40" height="38" rx="4"/><path d="M12 26h40M22 10v8M42 10v8"/>'
 };
 const motifSVG=key=>`<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${MOTIF[key]||''}</svg>`;
 
@@ -406,11 +448,26 @@ function layoutPages(key,photos){
     const type=token==='scatter'?'scatter':(take.length===1?'single':'grid');
     pages.push({type,photos:take,n:pages.length+1,theme:key});i+=take.length;n++}
   return pages}
-function renderPageHTML(pg){let inner;
-  if(pg.type==='single')inner=`<div class="t psingle"><div class="psingle-photo">${I(pg.photos[0])}</div><div class="psingle-cap">${esc(captionFor(pg.n))}</div></div>`;
+function monthGrid(y,m){const first=new Date(y,m,1);const startDow=(first.getDay()+6)%7;const days=new Date(y,m+1,0).getDate();
+  const cells=[];for(let i=0;i<startDow;i++)cells.push(null);for(let d=1;d<=days;d++)cells.push(d);while(cells.length%7)cells.push(null);return cells}
+const WDJ=['月','火','水','木','金','土','日'];
+function calendarPages(proj){const pages=[];
+  for(let m=0;m<12;m++){const dnum=new Date(2027,m+1,0).getDate();const photos=[];
+    for(let d=1;d<=dnum;d++){const key=`${m+1}-${d}`;if(proj.days[key])photos.push(proj.days[key])}
+    pages.push({type:'calmonth',month:m,n:m+1,photos,dayMap:proj.days})}
+  return pages}
+function syncCalendarDerived(proj){proj.photos=Object.values(proj.days);proj.pages=calendarPages(proj)}
+function renderPageHTML(pg){let inner,ratio='3/4';
+  if(pg.type==='calmonth'){ratio='4/3';const grid=monthGrid(2027,pg.month);const hero=pg.photos[0]||SAMPLE.babies[pg.month%SAMPLE.babies.length];
+    inner=`<div class="t calmonth"><div class="cm-photo">${I(hero)}</div><div class="cm-rings"></div><div class="cm-foot">
+    <div class="cm-mo"><b>${pg.month+1}</b><small>月 / 2027</small></div>
+    <div class="cm-wd">${WDJ.map((w,i)=>`<span class="${i>=5?'we':''}">${w}</span>`).join('')}</div>
+    <div class="cm-days">${grid.map(d=>{if(!d)return '<span></span>';const key=`${pg.month+1}-${d}`;const ph=pg.dayMap[key];
+      return ph?`<span class="has">${I(ph)}</span>`:`<span>${d}</span>`}).join('')}</div></div></div>`}
+  else if(pg.type==='single')inner=`<div class="t psingle"><div class="psingle-photo">${I(pg.photos[0])}</div><div class="psingle-cap">${esc(captionFor(pg.n))}</div></div>`;
   else if(pg.type==='scatter')inner=`<div class="t pscatter">${pg.photos.map(s=>`<div class="pscatter-photo">${I(s)}</div>`).join('')}<div class="pscatter-cap">${esc(captionFor(pg.n))}</div></div>`;
   else inner=`<div class="t pgrid pgrid-${pg.photos.length}">${pg.photos.map(s=>`<div class="pgrid-cell">${I(s)}</div>`).join('')}</div>`;
-  return `<div class="card-print"><div class="paper" style="--r:3/4">${inner}</div></div>`}
+  return `<div class="card-print"><div class="paper" style="--r:${ratio}">${inner}</div></div>`}
 
 /* ---------- album cover ---------- */
 const COVERS=[{k:'soft',label:'ソフトカバー',base:2480},{k:'hard',label:'ハードカバー',base:3980}];
@@ -427,7 +484,10 @@ function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const
   else inner=`<div class="cv-win">${I(img)}</div>${title}${sub}`;
   return `<div class="cover ${a.cover} ${design}" style="--cc:${col.c};--ct:${col.t}">${motif}${inner}</div>`}
 function themeCoverObj(key){const proj=S.projects[key];if(proj)return proj;
-  const idx=THEME_ORDER.indexOf(key);const demo=SAMPLE.babies.slice(idx*4,idx*4+4);
+  const idx=THEME_ORDER.indexOf(key);
+  if(key==='calendar'){const demoProj={days:{'1-1':SAMPLE.babies[idx%SAMPLE.babies.length]}};
+    return {title:THEMES[key].title,message:THEMES[key].msg,themeKey:key,cover:'hard',color:'navy',design:'window',pages:calendarPages(demoProj)}}
+  const demo=SAMPLE.babies.slice(idx*4,idx*4+4);
   return {title:THEMES[key].title,message:THEMES[key].msg,themeKey:key,cover:'hard',color:COLORS[idx%COLORS.length].k,design:'window',pages:layoutPages(key,demo)}}
 
 /* ---------- dates ---------- */
@@ -455,8 +515,29 @@ function renderHome(){
 document.addEventListener('click',e=>{
   const tb=e.target.closest('[data-theme]');if(tb)openTheme(tb.dataset.theme)});
 
+/* ---------- CALENDAR ---------- */
+function initCalendarProject(){S.projects.calendar={themeKey:'calendar',title:THEMES.calendar.title,message:THEMES.calendar.msg,cover:'hard',color:'navy',design:'window',status:'draft',days:{}};
+  syncCalendarDerived(S.projects.calendar)}
+function renderCalendarEditor(){const proj=S.projects.calendar;const m=S.calMonth;
+  $('#calMoLabel').textContent=`${m+1}月 2027`;
+  $('#calCount').textContent=`${Object.keys(proj.days).length} / 365日`;
+  const grid=monthGrid(2027,m);
+  $('#calDayGrid').innerHTML=WDJ.map(w=>`<span class="cdwd">${w}</span>`).join('')+
+    grid.map(d=>{if(!d)return '<span class="cdcell empty"></span>';
+      const key=`${m+1}-${d}`;const ph=proj.days[key];
+      return `<button type="button" class="cdcell${ph?' has':''}" data-day="${d}">${ph?I(ph):`<span class="cdnum">${d}</span>`}</button>`}).join('')}
+$('#calPrev').addEventListener('click',()=>{S.calMonth=(S.calMonth+11)%12;renderCalendarEditor()});
+$('#calNext').addEventListener('click',()=>{S.calMonth=(S.calMonth+1)%12;renderCalendarEditor()});
+$('#calDayGrid').addEventListener('click',e=>{const b=e.target.closest('[data-day]');if(!b)return;
+  const key=`${S.calMonth+1}-${b.dataset.day}`;const proj=S.projects.calendar;
+  if(proj.days[key]){delete proj.days[key];syncCalendarDerived(proj);renderCalendarEditor();return}
+  S.calPendingKey=key;$('#file').value='';$('#file').click()});
+$('#calToPreview').addEventListener('click',()=>go('preview'));
+
 /* ---------- PICK ---------- */
-function openTheme(key){S.active=key;const proj=S.projects[key];
+function openTheme(key){S.active=key;
+  if(key==='calendar'){if(!S.projects.calendar)initCalendarProject();S.calMonth=S.calMonth||0;go('calendar');return}
+  const proj=S.projects[key];
   if(proj)go('preview');else{S.pickSel=[];go('pick')}}
 function renderPick(){const t=THEMES[S.active];
   $('#pkTitle').textContent=t.title;$('#pkCount').textContent=`${S.pickSel.length} / ${PAGE_CAP}枚`;
@@ -473,6 +554,9 @@ $('#pickClose').addEventListener('click',()=>{$('#pickerBg').hidden=true});
 $('#pickerBg').addEventListener('click',e=>{if(e.target.id==='pickerBg')$('#pickerBg').hidden=true});
 function readFile(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,1600/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.88))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(f)})}
 $('#file').addEventListener('change',async e=>{const files=[...e.target.files];if(!files.length)return;
+  if(S.view==='calendar'&&S.calPendingKey){const key=S.calPendingKey;S.calPendingKey=null;
+    try{const src=await readFile(files[0]);const proj=S.projects.calendar;proj.days[key]=src;syncCalendarDerived(proj);renderCalendarEditor()}catch(_){}
+    return}
   for(const f of files){if(S.pickSel.length>=PAGE_CAP)break;try{S.pickSel.push(await readFile(f))}catch(_){}}
   renderPick();updateCta()});
 function generateLayout(){const key=S.active;const photos=S.pickSel.slice(0,PAGE_CAP);const pages=layoutPages(key,photos);
@@ -509,7 +593,7 @@ $('#pv-msg').addEventListener('input',e=>{const proj=activeProject();proj.messag
 $('#pvDesigns').addEventListener('click',e=>{const b=e.target.closest('[data-design]');if(!b)return;activeProject().design=b.dataset.design;renderProjectView()});
 $('#pvCovers').addEventListener('click',e=>{const b=e.target.closest('[data-cover]');if(!b)return;activeProject().cover=b.dataset.cover;renderProjectView();updateCta()});
 $('#pvColors').addEventListener('click',e=>{const b=e.target.closest('[data-color]');if(!b)return;activeProject().color=b.dataset.color;renderProjectView()});
-function editProjectPhotos(){S.pickSel=activeProject().photos.slice();go('pick')}
+function editProjectPhotos(){if(S.active==='calendar'){go('calendar');return}S.pickSel=activeProject().photos.slice();go('pick')}
 $('#pvEditPhotos').addEventListener('click',editProjectPhotos);
 $('#pvSaveDraft').addEventListener('click',()=>{activeProject().status='draft';go('home')});
 
@@ -522,7 +606,8 @@ function renderOrder(){const {L,total}=calc();
 $('#grand').addEventListener('change',e=>{S.grand=e.target.checked;renderOrder()});
 $('#gift').addEventListener('change',e=>{S.gift=e.target.checked;renderOrder()});
 function submitOrder(){const err=$('#oErr');
-  if(activeProject().pages.length<MIN_PHOTOS){err.textContent=`${MIN_PHOTOS}ページ以上で注文できます。`;err.hidden=false;return}
+  if(S.active==='calendar'){if(activeProject().photos.length<MIN_PHOTOS){err.textContent=`写真を${MIN_PHOTOS}枚以上追加してください。`;err.hidden=false;return}}
+  else if(activeProject().pages.length<MIN_PHOTOS){err.textContent=`${MIN_PHOTOS}ページ以上で注文できます。`;err.hidden=false;return}
   const need=['o-name','o-zip','o-addr','o-tel'].concat(S.grand?['g-name','g-zip','g-addr']:[]);
   const miss=need.filter(id=>!$('#'+id).value.trim());
   if(miss.length){err.textContent='お届け先に未入力の項目があります。';err.hidden=false;$('#'+miss[0]).focus();return}
@@ -557,10 +642,10 @@ $('#orders').addEventListener('change',e=>{const i=e.target.dataset.ord;if(i==nu
     to:'田中 彩　〒150-0001 東京都渋谷区神宮前1-1-1',gto:'田中 正雄　〒980-0021 宮城県仙台市青葉区中央2-2-2'})})();
 
 /* ---------- navigation ---------- */
-const VIEWS=['home','pick','preview','order','done','admin'];
+const VIEWS=['home','pick','calendar','preview','order','done','admin'];
 function go(v){if(v==='admin'&&S.view!=='admin')S.prev=S.view;S.view=v;VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
   $('#back').hidden=v==='home';
-  if(v==='home')renderHome();if(v==='pick')renderPick();if(v==='preview')renderProjectView();
+  if(v==='home')renderHome();if(v==='pick')renderPick();if(v==='calendar')renderCalendarEditor();if(v==='preview')renderProjectView();
   if(v==='order')renderOrder();if(v==='admin')renderAdmin();
   updateCta();window.scrollTo(0,0)}
 function updateCta(){const b=$('#ctaBtn'),c=$('#cta');const v=S.view;
