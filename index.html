@@ -165,6 +165,21 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .cv-win img{width:100%;height:100%;object-fit:cover;display:block}
 .cv-title{font-family:var(--f-mincho);font-size:6cqw;color:var(--ct);text-align:center;letter-spacing:.4cqw;line-height:1.4;text-wrap:balance;position:relative}
 .cv-sub{font-family:var(--f-latin);font-style:italic;font-size:3.6cqw;color:var(--ct);opacity:.85;position:relative}
+.cover.full{padding:0;justify-content:flex-end;gap:0}
+.cv-full-img{position:absolute;inset:0}
+.cv-full-img img{width:100%;height:100%;object-fit:cover;display:block}
+.cv-full-band{position:relative;z-index:1;width:100%;box-sizing:border-box;padding:7cqw 8cqw 8cqw;background:linear-gradient(0deg,rgba(15,17,15,.52),rgba(15,17,15,0));display:flex;flex-direction:column;gap:2cqw;align-items:center}
+.cv-full-band .cv-title,.cv-full-band .cv-sub{color:#FBFAF6}
+.cover.frame{padding:6cqw}
+.cv-frame-inner{width:100%;height:100%;box-sizing:border-box;border:.5cqw solid var(--ct);border-radius:.8cqw;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3.5cqw;padding:6cqw}
+.cv-circ{width:38cqw;aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 .8cqw var(--cc)}
+.cv-circ img{width:100%;height:100%;object-fit:cover;display:block}
+.cv-rule{width:14cqw;height:.3cqw;background:var(--ct);opacity:.55}
+.covgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.covpick{border:0;padding:6px;border-radius:12px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);display:flex;flex-direction:column;gap:6px;align-items:center}
+.covpick[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--accent)}
+.covpick .cover{width:100%;aspect-ratio:1}
+.covpick span{font-size:11px;color:var(--muted)}
 .pages{display:flex;flex-direction:column;gap:14px}
 .pgprev{display:flex;flex-direction:column;gap:0;border-radius:14px;overflow:hidden;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
 .pgprev .ph{position:relative}
@@ -383,8 +398,9 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
       <div class="panel">
         <h3>表紙</h3>
         <div class="fld"><label for="al-title">表紙のタイトル</label><input type="text" id="al-title"></div>
-        <div class="chips" id="alCovers"></div>
-        <div class="chips" id="alColors"></div>
+        <div class="fld"><label>デザイン</label><div class="covgrid" id="alDesigns"></div></div>
+        <div class="fld"><label>表紙の素材</label><div class="chips" id="alCovers"></div></div>
+        <div class="fld"><label>色</label><div class="chips" id="alColors"></div></div>
       </div>
       <div class="panel">
         <h3>ページ構成 <small id="alCount"></small></h3>
@@ -535,7 +551,8 @@ for(const k in FIELD)S.f[k]=FIELD[k].v;
 const COVERS=[{k:'soft',label:'ソフトカバー',base:2480},{k:'hard',label:'ハードカバー',base:3980}];
 const PER_PAGE=350;
 const COLORS=[{k:'sage',label:'セージ',c:'#93A797',t:'#FBFAF6'},{k:'linen',label:'リネン',c:'#DCD1BE',t:'#4B4239'},{k:'rose',label:'ローズ',c:'#C99F98',t:'#FBFAF6'},{k:'navy',label:'ネイビー',c:'#48536A',t:'#F1EDE4'}];
-S.album={title:'結翔のはじめての1年',cover:'hard',color:'sage',pages:['meimei','okuizome','getsurei','birthday'].map(tpl=>({tpl,photos:[]}))};
+const COVER_DESIGNS=[{k:'window',label:'ウィンドウ'},{k:'full',label:'フルブリード'},{k:'frame',label:'クラシック'}];
+S.album={title:'結翔のはじめての1年',cover:'hard',color:'sage',design:'window',pages:['meimei','okuizome','getsurei','birthday'].map(tpl=>({tpl,photos:[]}))};
 S.ctx=null;S.mode='single';
 const curPhotos=()=>S.ctx!=null?S.album.pages[S.ctx].photos:(S.photos[S.tpl]||[]);
 function setPhotos(a){if(S.ctx!=null)S.album.pages[S.ctx].photos=a;else S.photos[S.tpl]=a}
@@ -585,7 +602,12 @@ function render(tpl,f,p,frame){const t=TPL[tpl];const paper=`<div class="paper" 
   const fc=(FRAMES.find(x=>x.k===frame)||FRAMES[0]).c;return `<div class="frame" style="--fc:${fc}"><div class="mat">${paper}</div></div>`}
 function renderPage(tpl,f,p){return `<div class="card-print"><div class="paper" style="--r:${TPL[tpl].ratio}">${R[tpl](f,p)}</div></div>`}
 function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const pg=a.pages[0];const img=pg?srcs(pg.tpl,pg.photos)[0]:SAMPLE.babies[0];
-  return `<div class="cover ${a.cover}" style="--cc:${col.c};--ct:${col.t}"><div class="cv-win">${I(img)}</div><div class="cv-title">${esc(a.title)}</div><div class="cv-sub">${a.pages.length} pages</div></div>`}
+  const design=a.design||'window';const title=`<div class="cv-title">${esc(a.title)}</div>`,sub=`<div class="cv-sub">${a.pages.length} pages</div>`;
+  let inner;
+  if(design==='full')inner=`<div class="cv-full-img">${I(img)}</div><div class="cv-full-band">${title}${sub}</div>`;
+  else if(design==='frame')inner=`<div class="cv-frame-inner"><div class="cv-circ">${I(img)}</div>${title}<div class="cv-rule"></div>${sub}</div>`;
+  else inner=`<div class="cv-win">${I(img)}</div>${title}${sub}`;
+  return `<div class="cover ${a.cover} ${design}" style="--cc:${col.c};--ct:${col.t}">${inner}</div>`}
 const stageCls=tpl=>TPL[tpl].ratio==='4/3'?'land':TPL[tpl].kind==='card'?'card':'';
 
 /* ---------- pricing ---------- */
@@ -707,6 +729,7 @@ const VIEWS=['login','home','album','edit','order','done','admin'];
 
 function renderAlbum(){const a=S.album;$('#al-title').value=a.title;
   $('#alCover').innerHTML=`<div>${renderCover(a)}</div>`;
+  $('#alDesigns').innerHTML=COVER_DESIGNS.map(d=>`<button type="button" class="covpick" aria-pressed="${d.k===(a.design||'window')}" data-design="${d.k}">${renderCover({...a,design:d.k})}<span>${d.label}</span></button>`).join('');
   $('#alCovers').innerHTML=COVERS.map(c=>`<button type="button" class="chip" aria-pressed="${c.k===a.cover}" data-cover="${c.k}"><b>${c.label}</b><span>${yen(c.base)} ＋ ${yen(PER_PAGE)}/ページ</span></button>`).join('');
   $('#alColors').innerHTML=COLORS.map(c=>`<button type="button" class="chip swatch" style="--c:${c.c}" aria-pressed="${c.k===a.color}" data-color="${c.k}"><i></i><b>${c.label}</b></button>`).join('');
   $('#alCount').textContent=`${a.pages.length}ページ・写真 ${albumPhotoCount(a)}`;
@@ -718,6 +741,7 @@ function renderAlbum(){const a=S.album;$('#al-title').value=a.title;
   $('#alAdd').innerHTML=ORDER.map(k=>`<button type="button" class="addbtn" data-add="${k}"><b>＋</b>${TPL[k].title}</button>`).join('');
   updateCta()}
 $('#al-title').addEventListener('input',e=>{S.album.title=e.target.value;$('#alCover').innerHTML=`<div>${renderCover(S.album)}</div>`});
+$('#alDesigns').addEventListener('click',e=>{const b=e.target.closest('[data-design]');if(!b)return;S.album.design=b.dataset.design;renderAlbum()});
 $('#alCovers').addEventListener('click',e=>{const b=e.target.closest('[data-cover]');if(!b)return;S.album.cover=b.dataset.cover;renderAlbum()});
 $('#alColors').addEventListener('click',e=>{const b=e.target.closest('[data-color]');if(!b)return;S.album.color=b.dataset.color;renderAlbum()});
 $('#alPages').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const P=S.album.pages;
