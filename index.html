@@ -165,21 +165,30 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .cv-win img{width:100%;height:100%;object-fit:cover;display:block}
 .cv-title{font-family:var(--f-mincho);font-size:6cqw;color:var(--ct);text-align:center;letter-spacing:.4cqw;line-height:1.4;text-wrap:balance;position:relative}
 .cv-sub{font-family:var(--f-latin);font-style:italic;font-size:3.6cqw;color:var(--ct);opacity:.85;position:relative}
-.pages{display:flex;flex-direction:column;gap:8px}
-.pg{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:8px;border-radius:12px;background:var(--bg)}
-.pg-thumb{border:0;padding:8px;background:var(--wall);border-radius:9px;display:grid;place-items:center;aspect-ratio:1;box-sizing:border-box;width:64px}
-.pg-thumb>div{width:72%}
-.pg-thumb.land>div{width:100%}
-.pg-thumb.card>div{width:60%}
-.pg-meta{min-width:0;display:flex;flex-direction:column;font-size:12px;color:var(--muted)}
-.pg-meta b{font-size:14px;color:var(--ink)}
-.pg-act{display:flex;gap:4px}
-.pg-act button{border:1px solid var(--line);background:var(--surface);border-radius:8px;min-width:32px;height:32px;font-size:13px;padding:0 8px}
-.pg-act button:disabled{opacity:.35;cursor:default}
+.pages{display:flex;flex-direction:column;gap:14px}
+.pgprev{display:flex;flex-direction:column;gap:0;border-radius:14px;overflow:hidden;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.pgprev .ph{position:relative}
+.pgprev .ph .card-print{border-radius:0;box-shadow:none}
+.pgprev .ph button.editpill{position:absolute;top:10px;right:10px;background:rgba(20,22,20,.55);color:#fff;border:0;border-radius:99px;padding:6px 12px;font-size:12px;display:flex;align-items:center;gap:4px;backdrop-filter:blur(2px)}
+.pgprev .meta{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px}
+.pgprev .meta .tx{min-width:0;font-size:12px;color:var(--muted)}
+.pgprev .meta .tx b{display:block;font-size:13.5px;color:var(--ink)}
+.pgprev .act{display:flex;gap:4px;flex:none}
+.pgprev .act button{border:1px solid var(--line);background:var(--bg);border-radius:8px;min-width:30px;height:30px;font-size:12.5px}
+.pgprev .act button:disabled{opacity:.35;cursor:default}
 .addgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .addbtn{border:1px dashed var(--line);background:var(--bg);border-radius:10px;padding:10px;text-align:left;font-size:13px}
 .addbtn b{color:var(--accent);margin-right:4px}
-.ghost{border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:12px;padding:11px;font-weight:700;width:100%}
+
+/* picker sheet */
+.sheet-bg{position:fixed;inset:0;background:rgba(20,22,20,.45);z-index:30;display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--surface);width:100%;max-width:460px;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:72vh;overflow:auto;box-sizing:border-box}
+.sheet h3{margin:0;font-size:15px}
+.sheet .opt{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:12px;text-align:left;display:flex;align-items:center;gap:10px;font-size:14px}
+.sheet .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.sheet .gal button{border:0;padding:0;border-radius:9px;overflow:hidden;aspect-ratio:1}
+.sheet .gal img{width:100%;height:100%;object-fit:cover;display:block}
+.sheet .close{align-self:center;border:0;background:none;color:var(--muted);font-size:13px;padding:6px}
 
 /* login */
 .login{gap:18px}
@@ -272,6 +281,23 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .ny-msg{font-family:var(--f-mincho);font-size:3.3cqw;line-height:1.9;white-space:pre-line;text-align:center}
 .ny-foot{display:flex;justify-content:space-between;gap:2cqw;font-size:3cqw;color:var(--papermuted);font-family:var(--f-mincho)}
 
+/* 掛けカレンダー */
+.cal{display:flex;flex-direction:column}
+.cal-photo{flex:1.3;min-height:0}
+.cal-photo img{width:100%;height:100%;object-fit:cover;display:block}
+.cal-rings{height:4cqw;margin:0 4cqw;background:repeating-linear-gradient(90deg,var(--paperline) 0 1.6cqw,transparent 1.6cqw 4cqw)}
+.cal-foot{display:flex;flex-direction:column;padding:4cqw 5cqw 5cqw;gap:2.2cqw}
+.cal-mo{display:flex;align-items:baseline;gap:1.4cqw;font-family:var(--f-latin)}
+.cal-mo b{font-size:9cqw;line-height:1;color:var(--seal)}
+.cal-mo small{font-size:3cqw;color:var(--papermuted)}
+.cal-wd{display:grid;grid-template-columns:repeat(7,1fr);font-size:2.4cqw;color:var(--papermuted);text-align:center;margin-bottom:.8cqw}
+.cal-wd span.we{color:var(--seal)}
+.cal-days{display:grid;grid-template-columns:repeat(7,1fr);row-gap:1.4cqw;font-size:2.6cqw;text-align:center;font-variant-numeric:tabular-nums}
+.cal-days span{position:relative;padding:.6cqw 0}
+.cal-days span.ny i,.cal-days span.bd i{display:block;font-style:normal;font-size:1.8cqw;position:absolute;left:50%;transform:translateX(-50%);bottom:-1.8cqw;white-space:nowrap}
+.cal-days span.ny{color:var(--seal)}
+.cal-days span.bd{color:var(--rose);font-weight:700}
+
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 </head>
@@ -318,8 +344,10 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
         <div class="ac-art" id="acArt"></div>
         <div><b>行事テンプレートを1冊のアルバムに</b><span>命名書・お食い初め・月齢フォト・1歳など、好きなページを組み合わせてまとめて注文</span><span class="go">アルバムを作る ›</span></div>
       </button>
-      <p class="label">行事からえらぶ</p>
+      <p class="label">行事からえらぶ・アルバムのページに追加</p>
       <div class="tgrid" id="tgrid"></div>
+      <p class="label">プリントギフト・これだけで注文できます</p>
+      <div class="tgrid" id="sgrid"></div>
       <div class="trust">
         <div><b>写真は30日で削除</b>発送完了後、写真データを削除します</div>
         <div><b>お届け10〜14日</b>発送時にLINEでお知らせ</div>
@@ -331,8 +359,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
     <section id="v-edit" hidden>
       <div class="edhead"><h2 id="edTitle"></h2><span id="edOcc"></span></div>
       <div class="wall" id="edWall"></div>
-      <button type="button" class="ghost" id="addAlbum">このデザインをアルバムのページに追加</button>
-      <p class="hint" id="addAlbumMsg" hidden></p>
       <div class="panel">
         <h3>写真 <small id="slotCount"></small></h3>
         <div class="slots" id="slots"></div>
@@ -347,10 +373,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
       <div class="panel" id="optPanel">
         <h3 id="sizeTitle">サイズ</h3>
         <div class="chips" id="sizes"></div>
-        <div id="frameBox" style="display:flex;flex-direction:column;gap:10px">
-          <h3>額のいろ</h3>
-          <div class="chips" id="frames"></div>
-        </div>
       </div>
     </section>
 
@@ -436,6 +458,16 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
   </main>
 
   <div class="cta" id="cta" hidden><button type="button" id="ctaBtn"></button></div>
+
+  <div class="sheet-bg" id="pickerBg" hidden>
+    <div class="sheet">
+      <h3>写真を選ぶ</h3>
+      <button type="button" class="opt" id="pickFile"><span>📷</span>写真アルバムから選ぶ</button>
+      <button type="button" class="opt" id="pickSample"><span>🖼</span>見本画像から選ぶ</button>
+      <div class="gal" id="pickGal" hidden></div>
+      <button type="button" class="close" id="pickClose">キャンセル</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -450,9 +482,11 @@ const TPL={
   getsurei:{title:'月齢フォト 12ヶ月',occ:'はじめての1年',ratio:'4/3',kind:'frame',slots:Array.from({length:12},(_,i)=>`${i+1}ヶ月`),fields:['name','birth']},
   birthday:{title:'1歳バースデー',occ:'1歳の誕生日',ratio:'3/4',kind:'frame',slots:['写真'],fields:['name','birth','message']},
   okuizome:{title:'お食い初め',occ:'百日祝い・生後100日',ratio:'3/4',kind:'frame',slots:['写真'],fields:['name','birth']},
-  nengajo:{title:'年賀状 2027',occ:'お正月・ひつじ年',ratio:'100/148',kind:'card',slots:['写真'],fields:['family','greeting','name']}
+  nengajo:{title:'年賀状 2027',occ:'お正月・ひつじ年',ratio:'100/148',kind:'card',slots:['写真'],fields:['family','greeting','name'],standalone:true},
+  calendar:{title:'壁掛けカレンダー 2027',occ:'月めくり・スパイラル綴じ',ratio:'4/3',kind:'calendar',slots:Array.from({length:12},(_,i)=>`${i+1}月の写真`),fields:['name','birth','showBday'],standalone:true}
 };
-const ORDER=['meimei','tegata','getsurei','birthday','okuizome','nengajo'];
+const ORDER=['meimei','tegata','getsurei','birthday','okuizome'];
+const STANDALONE=['nengajo','calendar'];
 const FIELD={
   name:{l:'お子さまのお名前',v:'結翔'},
   kana:{l:'ふりがな',v:'ゆいと'},
@@ -463,10 +497,12 @@ const FIELD={
   mother:{l:'母',v:'美咲'},
   message:{l:'メッセージ',v:'生まれてきてくれてありがとう',full:1},
   family:{l:'ご家族のお名前',v:'佐藤 健太・美咲',full:1},
-  greeting:{l:'あいさつ文',v:'昨年は大変お世話になりました\n家族がひとり増えました\n本年もよろしくお願いいたします',t:'textarea',full:1}
+  greeting:{l:'あいさつ文',v:'昨年は大変お世話になりました\n家族がひとり増えました\n本年もよろしくお願いいたします',t:'textarea',full:1},
+  showBday:{l:'お誕生日を表示',t:'toggle',v:'1'}
 };
 const SIZES=[{label:'2L判',dim:'127×178mm',price:2980},{label:'A4',dim:'210×297mm',price:4280},{label:'A3',dim:'297×420mm',price:6480}];
 const CARDS=[{label:'10枚',dim:'はがき',price:1980},{label:'30枚',dim:'はがき',price:4480},{label:'50枚',dim:'はがき',price:6980}];
+const CALENDARS=[{label:'卓上カレンダー',dim:'A6・スパイラル',price:2680},{label:'壁掛けカレンダー',dim:'A4・スパイラル',price:3480}];
 const FRAMES=[{k:'natural',label:'ナチュラル',c:'#C9A57E'},{k:'white',label:'ホワイト',c:'#EFEDE7'},{k:'black',label:'ブラック',c:'#33312F'},{k:'pink',label:'くすみピンク',c:'#D4B0A9'}];
 
 /* ---------- sample images (drawn, clearly labeled as samples) ---------- */
@@ -489,7 +525,7 @@ function print(kind,h){const [c,x]=cv();x.fillStyle='#FFFFFF';x.fillRect(0,0,480
 const HUES=[150,20,200,340,90,40,260,0,120,300,60,180];
 const SAMPLE={babies:HUES.map(baby),hand:print('hand',350),foot:print('foot',200)};
 function sampleFor(tpl,i){if(tpl==='tegata'&&i===1)return SAMPLE.hand;if(tpl==='tegata'&&i===2)return SAMPLE.foot;
-  const off={meimei:0,tegata:2,getsurei:0,birthday:4,okuizome:6,nengajo:8}[tpl];return SAMPLE.babies[(i+off)%12]}
+  const off={meimei:0,tegata:2,getsurei:0,birthday:4,okuizome:6,nengajo:8,calendar:5}[tpl];return SAMPLE.babies[(i+off)%12]}
 
 /* ---------- state ---------- */
 const S={view:'home',prev:'home',tpl:'meimei',f:{},photos:{},size:1,frame:'natural',grand:false,gift:false,orders:[],last:null,slot:0};
@@ -514,6 +550,8 @@ const wa=d=>{const y=d.getFullYear()-2018;return `令和${y===1?'元':y}年${d.g
 const dot=d=>`${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`;
 const WD='日月火水木金土';const md=d=>`${d.getMonth()+1}月${d.getDate()}日(${WD[d.getDay()]})`;
 const etaText=()=>{const t=new Date();return `${md(add(t,10))} 〜 ${md(add(t,14))}`};
+function monthGrid(y,m){const first=new Date(y,m,1);const startDow=(first.getDay()+6)%7;const days=new Date(y,m+1,0).getDate();
+  const cells=[];for(let i=0;i<startDow;i++)cells.push(null);for(let d=1;d<=days;d++)cells.push(d);while(cells.length%7)cells.push(null);return cells}
 
 /* ---------- print templates ---------- */
 const I=s=>`<img src="${s}" alt="">`;
@@ -534,10 +572,16 @@ const R={
   okuizome:(f,p)=>`<div class="t ok"><div class="ok-sub">生後百日のお祝い</div><div class="ok-h">お食い初め</div><div class="ok-photo">${I(p[0])}</div><div class="ok-name">${esc(f.name)}</div><div class="ok-date">${wa(add(D(f.birth),99))}</div></div>`,
   nengajo:(f,p)=>`<div class="t ny"><div class="ny-top"><div class="ny-year">2027</div><div class="ny-hny">Happy New Year<small>令和9年 元旦</small></div></div>
     <div class="ny-photo">${I(p[0])}</div><div class="ny-msg">${esc(f.greeting)}</div>
-    <div class="ny-foot"><span>${esc(f.family)}</span><span>${esc(f.name)}（${D(f.birth).getMonth()+1}月生まれ）</span></div></div>`
+    <div class="ny-foot"><span>${esc(f.family)}</span><span>${esc(f.name)}（${D(f.birth).getMonth()+1}月生まれ）</span></div></div>`,
+  calendar:(f,p)=>{const month=0;const grid=monthGrid(2027,month);const WDJ=['月','火','水','木','金','土','日'];const b=D(f.birth);const bdOn=f.showBday==='1'&&b.getMonth()===month;
+    return `<div class="t cal"><div class="cal-photo">${I(p[month])}</div><div class="cal-rings"></div><div class="cal-foot">
+    <div class="cal-mo"><b>${month+1}</b><small>月 / 2027</small></div>
+    <div class="cal-wd">${WDJ.map((w,i)=>`<span class="${i>=5?'we':''}">${w}</span>`).join('')}</div>
+    <div class="cal-days">${grid.map(d=>{if(!d)return '<span></span>';const isNY=month===0&&d===1;const isBd=bdOn&&d===b.getDate();
+      return `<span class="${isBd?'bd':isNY?'ny':''}">${d}${isNY?'<i>元日</i>':isBd?'<i>🎂</i>':''}</span>`}).join('')}</div></div></div>`}
 };
 function render(tpl,f,p,frame){const t=TPL[tpl];const paper=`<div class="paper" style="--r:${t.ratio}">${R[tpl](f,p)}</div>`;
-  if(t.kind==='card')return `<div class="card-print">${paper}</div>`;
+  if(t.kind!=='frame')return `<div class="card-print">${paper}</div>`;
   const fc=(FRAMES.find(x=>x.k===frame)||FRAMES[0]).c;return `<div class="frame" style="--fc:${fc}"><div class="mat">${paper}</div></div>`}
 function renderPage(tpl,f,p){return `<div class="card-print"><div class="paper" style="--r:${TPL[tpl].ratio}">${R[tpl](f,p)}</div></div>`}
 function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const pg=a.pages[0];const img=pg?srcs(pg.tpl,pg.photos)[0]:SAMPLE.babies[0];
@@ -548,39 +592,53 @@ const stageCls=tpl=>TPL[tpl].ratio==='4/3'?'land':TPL[tpl].kind==='card'?'card':
 function calc(){let L,sz=null;
   if(S.mode==='album'){const a=S.album,cv=COVERS.find(c=>c.k===a.cover),n=a.pages.length,b=cv.base+PER_PAGE*n;
     L=[[`フォトアルバム（${cv.label}・${n}ページ）`,b]];if(S.grand)L.push(['祖父母さま宛 2冊目（20%OFF）',Math.round(b*.8)])}
-  else{const t=TPL[S.tpl];sz=(t.kind==='card'?CARDS:SIZES)[S.size];L=[[`${t.title}（${sz.label}）`,sz.price]];
+  else{const t=TPL[S.tpl];const list=t.kind==='card'?CARDS:t.kind==='calendar'?CALENDARS:SIZES;sz=list[S.size];L=[[`${t.title}（${sz.label}）`,sz.price]];
     if(S.grand)L.push(['祖父母さま宛 2点目（20%OFF）',Math.round(sz.price*.8)])}
   if(S.grand&&S.gift)L.push(['ギフト包装・のし',330]);
   const sub=L.reduce((a,l)=>a+l[1],0),n=S.grand?2:1,ship=sub>=5000?0:550*n;
   L.push([`送料（${n}か所）${ship?'':'　¥5,000以上で無料'}`,ship]);return {L,total:sub+ship,sz}}
 
 /* ---------- HOME ---------- */
-function renderHome(){$('#tgrid').innerHTML=ORDER.map(k=>{const t=TPL[k];const min=(t.kind==='card'?CARDS:SIZES)[0].price;
+function renderHome(){$('#tgrid').innerHTML=ORDER.map(k=>{const t=TPL[k];
   return `<button type="button" class="tcard" data-open="${k}"><div class="stage ${stageCls(k)}"><div>${render(k,S.f,srcs(k,S.photos[k]),S.frame)}</div></div>
-  <div><div class="occ">${t.occ}</div><div class="nm">${t.title}</div><div class="pr">${yen(min)}〜</div></div></button>`}).join('');$('#acArt').innerHTML=renderCover(S.album)}
+  <div><div class="occ">${t.occ}</div><div class="nm">${t.title}</div><div class="pr">アルバムに追加 ›</div></div></button>`}).join('');
+  $('#sgrid').innerHTML=STANDALONE.map(k=>{const t=TPL[k];const list=t.kind==='card'?CARDS:CALENDARS;const min=list[0].price;
+  return `<button type="button" class="tcard" data-open="${k}"><div class="stage ${stageCls(k)}"><div>${render(k,S.f,srcs(k,S.photos[k]),S.frame)}</div></div>
+  <div><div class="occ">${t.occ}</div><div class="nm">${t.title}</div><div class="pr">${yen(min)}〜</div></div></button>`}).join('');
+  $('#acArt').innerHTML=renderCover(S.album)}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-open]');if(b){openEditor(b.dataset.open)}});
 
 /* ---------- EDIT ---------- */
-function openEditor(k,ctx){S.ctx=ctx==null?null:ctx;S.mode=S.ctx==null?'single':'album';if(S.ctx==null&&S.tpl!==k)S.size=TPL[k].kind==='card'?0:1;S.tpl=k;const t=TPL[k];
+function openEditor(k,ctx){S.ctx=ctx==null?null:ctx;S.mode=S.ctx==null?'single':'album';if(S.ctx==null&&S.tpl!==k)S.size=0;S.tpl=k;const t=TPL[k];
   $('#edTitle').textContent=t.title;$('#edOcc').textContent=S.ctx==null?t.occ:`アルバム ${S.ctx+1}ページ目`;
-  $('#optPanel').hidden=S.ctx!=null;$('#addAlbum').hidden=S.ctx!=null;$('#addAlbumMsg').hidden=true;
-  $('#fields').innerHTML=t.fields.map(n=>{const d=FIELD[n];const id='f-'+n;const v=esc(S.f[n]);
-    const inp=d.t==='textarea'?`<textarea id="${id}" data-f="${n}">${v}</textarea>`:`<input type="${d.t||'text'}" id="${id}" data-f="${n}" value="${v}"${d.t==='number'?' step="any" inputmode="decimal"':''}>`;
+  $('#optPanel').hidden=!t.standalone;
+  $('#fields').innerHTML=t.fields.map(n=>{const d=FIELD[n];const id='f-'+n;const v=S.f[n];
+    if(d.t==='toggle')return `<div class="fld full"><label>${d.l}</label><div class="chips" data-f="${n}"><button type="button" class="chip" aria-pressed="${v==='1'}" data-val="1">展示</button><button type="button" class="chip" aria-pressed="${v!=='1'}" data-val="0">不展示</button></div></div>`;
+    const ev=esc(v);const inp=d.t==='textarea'?`<textarea id="${id}" data-f="${n}">${ev}</textarea>`:`<input type="${d.t||'text'}" id="${id}" data-f="${n}" value="${ev}"${d.t==='number'?' step="any" inputmode="decimal"':''}>`;
     return `<div class="fld${d.full?' full':''}"><label for="${id}">${d.l}</label>${inp}</div>`}).join('');
-  $('#sizeTitle').textContent=t.kind==='card'?'枚数':'サイズ';$('#frameBox').hidden=t.kind==='card';
+  $('#sizeTitle').textContent=t.kind==='card'?'枚数':t.kind==='calendar'?'タイプ':'サイズ';
   renderSlots();renderOptions();renderPreview();go('edit')}
 function renderPreview(){const w=$('#edWall');w.className='wall '+stageCls(S.tpl);const p=srcs(S.tpl,curPhotos());w.innerHTML=`<div>${S.ctx!=null?renderPage(S.tpl,S.f,p):render(S.tpl,S.f,p,S.frame)}</div>`;updateCta()}
 function renderSlots(){const t=TPL[S.tpl];const mine=curPhotos();const p=srcs(S.tpl,mine);
   $('#slots').innerHTML=t.slots.map((l,i)=>`<button type="button" class="slot" data-slot="${i}" aria-label="${l}の写真を選ぶ"><div class="th ${mine[i]?'mine':'sample'}"><img src="${p[i]}" alt="">${mine[i]?'':'<span class="tag">例</span>'}<span class="plus">${mine[i]?'変更':'+'}</span></div><span class="l">${l}</span></button>`).join('');
   const n=mine.filter(Boolean).length;$('#slotCount').textContent=`${n} / ${t.slots.length}枚`;
   $('#slotHint').textContent=t.slots.length>1?'薄い写真はサンプルです。1枚目をタップして複数選ぶと、順番に入ります。':'薄い写真はサンプルです。タップして差し替えてください。'}
-function renderOptions(){const t=TPL[S.tpl];const list=t.kind==='card'?CARDS:SIZES;
-  $('#sizes').innerHTML=list.map((s,i)=>`<button type="button" class="chip" aria-pressed="${i===S.size}" data-size="${i}"><b>${s.label}</b><span>${s.dim}</span><span>${yen(s.price)}</span></button>`).join('');
-  $('#frames').innerHTML=FRAMES.map(f=>`<button type="button" class="chip swatch" style="--c:${f.c}" aria-pressed="${f.k===S.frame}" data-frame="${f.k}"><i></i><b>${f.label}</b></button>`).join('')}
+function renderOptions(){const t=TPL[S.tpl];const list=t.kind==='card'?CARDS:t.kind==='calendar'?CALENDARS:SIZES;
+  $('#sizes').innerHTML=list.map((s,i)=>`<button type="button" class="chip" aria-pressed="${i===S.size}" data-size="${i}"><b>${s.label}</b><span>${s.dim}</span><span>${yen(s.price)}</span></button>`).join('')}
 $('#fields').addEventListener('input',e=>{const n=e.target.dataset.f;if(!n)return;S.f[n]=e.target.value;renderPreview()});
+$('#fields').addEventListener('click',e=>{const b=e.target.closest('[data-val]');if(!b)return;const w=b.closest('[data-f]');S.f[w.dataset.f]=b.dataset.val;
+  w.querySelectorAll('[data-val]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.val===b.dataset.val));renderPreview()});
 $('#sizes').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;S.size=+b.dataset.size;renderOptions();updateCta()});
-$('#frames').addEventListener('click',e=>{const b=e.target.closest('[data-frame]');if(!b)return;S.frame=b.dataset.frame;renderOptions();renderPreview()});
-$('#slots').addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;S.slot=+b.dataset.slot;$('#file').value='';$('#file').click()});
+function openPicker(i){S.slot=i;$('#pickGal').hidden=true;$('#pickFile').hidden=false;$('#pickSample').hidden=false;$('#pickerBg').hidden=false}
+function closePicker(){$('#pickerBg').hidden=true}
+$('#slots').addEventListener('click',e=>{const b=e.target.closest('[data-slot]');if(!b)return;openPicker(+b.dataset.slot)});
+$('#pickFile').addEventListener('click',()=>{closePicker();$('#file').value='';$('#file').click()});
+$('#pickSample').addEventListener('click',()=>{$('#pickFile').hidden=true;$('#pickSample').hidden=true;$('#pickGal').hidden=false;
+  $('#pickGal').innerHTML=SAMPLE.babies.map((s,j)=>`<button type="button" data-pick="${j}"><img src="${s}" alt=""></button>`).join('')});
+$('#pickGal').addEventListener('click',e=>{const b=e.target.closest('[data-pick]');if(!b)return;const arr=curPhotos().slice();arr[S.slot]=SAMPLE.babies[+b.dataset.pick];
+  setPhotos(arr);renderSlots();renderPreview();closePicker()});
+$('#pickClose').addEventListener('click',closePicker);
+$('#pickerBg').addEventListener('click',e=>{if(e.target.id==='pickerBg')closePicker()});
 $('#resetPhotos').addEventListener('click',()=>{setPhotos([]);renderSlots();renderPreview()});
 function readFile(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,1600/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.88))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(f)})}
 $('#file').addEventListener('change',async e=>{const files=[...e.target.files];if(!files.length)return;const n=TPL[S.tpl].slots.length;const arr=curPhotos().slice();
@@ -653,9 +711,9 @@ function renderAlbum(){const a=S.album;$('#al-title').value=a.title;
   $('#alColors').innerHTML=COLORS.map(c=>`<button type="button" class="chip swatch" style="--c:${c.c}" aria-pressed="${c.k===a.color}" data-color="${c.k}"><i></i><b>${c.label}</b></button>`).join('');
   $('#alCount').textContent=`${a.pages.length}ページ・写真 ${albumPhotoCount(a)}`;
   $('#alPages').innerHTML=a.pages.length?a.pages.map((p,i)=>{const t=TPL[p.tpl];const up=p.photos.filter(Boolean).length;
-    return `<div class="pg"><button type="button" class="pg-thumb ${stageCls(p.tpl)}" data-edit="${i}" aria-label="${i+1}ページ目を編集"><div>${renderPage(p.tpl,S.f,srcs(p.tpl,p.photos))}</div></button>
-    <div class="pg-meta"><b>${i+1}. ${t.title}</b><span>写真 ${up} / ${t.slots.length}枚${up?'':'（サンプル表示中）'}</span></div>
-    <div class="pg-act"><button type="button" data-up="${i}" aria-label="上へ"${i===0?' disabled':''}>↑</button><button type="button" data-down="${i}" aria-label="下へ"${i===a.pages.length-1?' disabled':''}>↓</button><button type="button" data-del="${i}" aria-label="削除">×</button></div></div>`}).join('')
+    return `<div class="pgprev"><div class="ph">${renderPage(p.tpl,S.f,srcs(p.tpl,p.photos))}<button type="button" class="editpill" data-edit="${i}">✎ 編集</button></div>
+    <div class="meta"><div class="tx"><b>${i+1}. ${t.title}</b>写真 ${up} / ${t.slots.length}枚${up?'':'（サンプル表示中）'}</div>
+    <div class="act"><button type="button" data-up="${i}" aria-label="上へ"${i===0?' disabled':''}>↑</button><button type="button" data-down="${i}" aria-label="下へ"${i===a.pages.length-1?' disabled':''}>↓</button><button type="button" data-del="${i}" aria-label="削除">×</button></div></div></div>`}).join('')
     :'<p class="hint">まだページがありません。下のテンプレートから追加してください。</p>';
   $('#alAdd').innerHTML=ORDER.map(k=>`<button type="button" class="addbtn" data-add="${k}"><b>＋</b>${TPL[k].title}</button>`).join('');
   updateCta()}
@@ -670,21 +728,23 @@ $('#alPages').addEventListener('click',e=>{const b=e.target.closest('button');if
   renderAlbum()});
 $('#alAdd').addEventListener('click',e=>{const b=e.target.closest('[data-add]');if(!b)return;S.album.pages.push({tpl:b.dataset.add,photos:[]});renderAlbum()});
 $('#toAlbum').addEventListener('click',()=>go('album'));
-$('#addAlbum').addEventListener('click',()=>{S.album.pages.push({tpl:S.tpl,photos:curPhotos().slice()});const m=$('#addAlbumMsg');
-  m.innerHTML=`アルバムに追加しました（全${S.album.pages.length}ページ）　<button type="button" class="linkbtn" id="goAlbum">アルバムを見る</button>`;m.hidden=false;$('#goAlbum').onclick=()=>go('album')});
 function go(v){if(v==='admin'&&S.view!=='admin')S.prev=S.view;S.view=v;VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
   $('#back').hidden=v==='home'||v==='login';$('#adminBtn').hidden=v==='login';
   if(v==='album'){S.mode='album';S.ctx=null;renderAlbum()}
   if(v==='home')renderHome();if(v==='order')renderOrder();if(v==='admin')renderAdmin();
   updateCta();window.scrollTo(0,0)}
 function updateCta(){const b=$('#ctaBtn'),c=$('#cta');const v=S.view;
-  if(v==='edit'){c.hidden=false;b.textContent=S.ctx!=null?'アルバムに戻る':`${yen(calc().total)}　注文手続きへ`}
+  if(v==='edit'){c.hidden=false;const t=TPL[S.tpl];
+    b.textContent=S.ctx!=null?'アルバムに戻る':(t.standalone?`${yen(calc().total)}　注文手続きへ`:'このページをアルバムに追加 ›')}
   else if(v==='album'){c.hidden=false;b.textContent=S.album.pages.length?`${yen(calc().total)}　アルバムを注文`:'ページを追加してください'}
   else if(v==='order'){c.hidden=false;b.textContent=`${yen(calc().total)}　注文を確定する`}
   else if(v==='done'){c.hidden=false;b.textContent='ほかのフレームも見る'}
   else c.hidden=true}
 $('#ctaBtn').addEventListener('click',()=>{const v=S.view;
-  if(v==='edit')go(S.ctx!=null?'album':'order');
+  if(v==='edit'){const t=TPL[S.tpl];
+    if(S.ctx!=null)go('album');
+    else if(t.standalone)go('order');
+    else{S.album.pages.push({tpl:S.tpl,photos:curPhotos().slice()});go('album')}}
   else if(v==='album'){if(S.album.pages.length)go('order')}
   else if(v==='order')submitOrder();else if(v==='done')go('home')});
 $('#back').addEventListener('click',()=>{const v=S.view;let to='home';
