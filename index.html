@@ -237,10 +237,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .ny-foot{display:flex;justify-content:space-between;gap:2cqw;font-size:3cqw;color:var(--papermuted);font-family:var(--f-mincho)}
 
 /* auto-layout album pages */
-.pcal-corner{position:absolute;top:4cqw;right:4cqw;background:var(--paper);border-radius:1.5cqw;padding:1.5cqw 2.5cqw;text-align:center;font-family:var(--f-latin);line-height:1;box-shadow:0 .6cqw 1.5cqw rgba(0,0,0,.18);z-index:1;font-size:5cqw}
-.pcal-corner small{display:block;font-family:var(--f-round);font-size:2.4cqw;color:var(--papermuted);margin-top:.6cqw}
-.pcal-photo{position:absolute;inset:0}
-.pcal-photo img{width:100%;height:100%;object-fit:cover;display:block}
 .psingle{display:flex;flex-direction:column}
 .psingle-photo{flex:1;min-height:0}
 .psingle-photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -330,6 +326,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
       <div class="panel">
         <h3>表紙</h3>
         <div class="fld"><label for="pv-title">表紙のタイトル</label><input type="text" id="pv-title"></div>
+        <div class="fld"><label for="pv-msg">記念のメッセージ</label><input type="text" id="pv-msg"></div>
         <div class="fld"><label>デザイン</label><div class="covgrid" id="pvDesigns"></div></div>
         <div class="fld"><label>表紙の素材</label><div class="chips" id="pvCovers"></div></div>
         <div class="fld"><label>色</label><div class="chips" id="pvColors"></div></div>
@@ -419,6 +416,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 
   <div class="cta" id="cta" hidden><button type="button" id="ctaBtn"></button></div>
 
+  <input type="file" id="file" accept="image/*" multiple hidden>
   <div class="sheet-bg" id="pickerBg" hidden>
     <div class="sheet">
       <h3>見本画像から追加</h3>
@@ -451,28 +449,25 @@ const SAMPLE={babies:HUES.map(baby)};
 
 /* ---------- themes (whole-album templates) ---------- */
 const THEMES={
-  growth:{title:'成長アルバム',occ:'日々のベストショットを1冊に',pattern:[1,3]},
-  calendar:{title:'壁掛けカレンダー 2027',occ:'写真と一緒にめくるカレンダー',pattern:null},
-  highlight:{title:'ハイライト写真集',occ:'とっておきの瞬間を集めて',pattern:[1,1,2]}
+  year1:{title:'はじめての1年間',occ:'0歳・誕生から1年の記録',pattern:[1,3],msg:'すくすく育ってくれてありがとう'},
+  age3:{title:'わたしの3歳の思い出',occ:'3歳の成長記念',pattern:[1,2],msg:'大きくなったね、3歳おめでとう'},
+  nursery:{title:'はじめての保育園',occ:'入園の記念に',pattern:[1,3],msg:'はじめの一歩、いってらっしゃい'},
+  shichigosan:{title:'七五三の思い出',occ:'七五三のお祝い',pattern:[1,1,2],msg:'すこやかな成長を祝って'}
 };
-const THEME_ORDER=['growth','calendar','highlight'];
+const THEME_ORDER=['year1','age3','nursery','shichigosan'];
 const PAGE_CAP=20,MIN_PHOTOS=3;
 const CAPTIONS=['すてきな瞬間','お気に入りの1枚','やさしい時間','今日のできごと','大切な記録','ふとした表情'];
 const captionFor=n=>CAPTIONS[(n-1)%CAPTIONS.length];
-const monthLabel=n=>((n-1)%12)+1;
 
 function layoutPages(key,photos){
-  if(key==='calendar')return photos.map((src,i)=>({type:'cal',photos:[src],n:i+1}));
   const pattern=THEMES[key].pattern;const pages=[];let i=0,n=0;
   while(i<photos.length){const size=pattern[n%pattern.length];const take=photos.slice(i,i+Math.min(size,photos.length-i));
     pages.push({type:take.length===1?'single':'grid',photos:take,n:pages.length+1});i+=take.length;n++}
   return pages}
-const pageRatio=pg=>pg.type==='cal'?'4/3':'3/4';
 function renderPageHTML(pg){let inner;
-  if(pg.type==='cal')inner=`<div class="t"><div class="pcal-corner">${monthLabel(pg.n)}<small>月</small></div><div class="pcal-photo">${I(pg.photos[0])}</div></div>`;
-  else if(pg.type==='single')inner=`<div class="t psingle"><div class="psingle-photo">${I(pg.photos[0])}</div><div class="psingle-cap">${esc(captionFor(pg.n))}</div></div>`;
+  if(pg.type==='single')inner=`<div class="t psingle"><div class="psingle-photo">${I(pg.photos[0])}</div><div class="psingle-cap">${esc(captionFor(pg.n))}</div></div>`;
   else inner=`<div class="t pgrid pgrid-${pg.photos.length}">${pg.photos.map(s=>`<div class="pgrid-cell">${I(s)}</div>`).join('')}</div>`;
-  return `<div class="card-print"><div class="paper" style="--r:${pageRatio(pg)}">${inner}</div></div>`}
+  return `<div class="card-print"><div class="paper" style="--r:3/4">${inner}</div></div>`}
 
 /* ---------- album cover ---------- */
 const COVERS=[{k:'soft',label:'ソフトカバー',base:2480},{k:'hard',label:'ハードカバー',base:3980}];
@@ -481,15 +476,15 @@ const COLORS=[{k:'sage',label:'セージ',c:'#93A797',t:'#FBFAF6'},{k:'linen',la
 const COVER_DESIGNS=[{k:'window',label:'ウィンドウ'},{k:'full',label:'フルブリード'},{k:'frame',label:'クラシック'}];
 const I=s=>`<img src="${s}" alt="">`;
 function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const pg=a.pages[0];const img=pg?pg.photos[0]:SAMPLE.babies[0];
-  const design=a.design||'window';const title=`<div class="cv-title">${esc(a.title)}</div>`,sub=`<div class="cv-sub">${a.pages.length} pages</div>`;
+  const design=a.design||'window';const title=`<div class="cv-title">${esc(a.title)}</div>`,sub=`<div class="cv-sub">${esc(a.message||'')}</div>`;
   let inner;
   if(design==='full')inner=`<div class="cv-full-img">${I(img)}</div><div class="cv-full-band">${title}${sub}</div>`;
   else if(design==='frame')inner=`<div class="cv-frame-inner"><div class="cv-circ">${I(img)}</div>${title}<div class="cv-rule"></div>${sub}</div>`;
   else inner=`<div class="cv-win">${I(img)}</div>${title}${sub}`;
   return `<div class="cover ${a.cover} ${design}" style="--cc:${col.c};--ct:${col.t}">${inner}</div>`}
 function themeCoverObj(key){const proj=S.projects[key];if(proj)return proj;
-  const demo=SAMPLE.babies.slice(THEME_ORDER.indexOf(key)*2,THEME_ORDER.indexOf(key)*2+4);
-  return {title:THEMES[key].title,cover:'hard',color:['sage','navy','rose'][THEME_ORDER.indexOf(key)%3],design:'window',pages:layoutPages(key,demo)}}
+  const idx=THEME_ORDER.indexOf(key);const demo=SAMPLE.babies.slice(idx*4,idx*4+4);
+  return {title:THEMES[key].title,message:THEMES[key].msg,cover:'hard',color:COLORS[idx%COLORS.length].k,design:'window',pages:layoutPages(key,demo)}}
 
 /* ---------- 年賀状 (standalone gift item) ---------- */
 const FIELD={
@@ -558,7 +553,7 @@ $('#file').addEventListener('change',async e=>{const files=[...e.target.files];i
   renderPick();updateCta()});
 function generateLayout(){const key=S.active;const photos=S.pickSel.slice(0,PAGE_CAP);const pages=layoutPages(key,photos);
   const prev=S.projects[key];
-  S.projects[key]={photos,pages,title:(prev&&prev.title)||THEMES[key].title,cover:(prev&&prev.cover)||'hard',color:(prev&&prev.color)||'sage',design:(prev&&prev.design)||'window',status:'draft'};
+  S.projects[key]={photos,pages,title:(prev&&prev.title)||THEMES[key].title,message:(prev&&prev.message)||THEMES[key].msg,cover:(prev&&prev.cover)||'hard',color:(prev&&prev.color)||'sage',design:(prev&&prev.design)||'window',status:'draft'};
   S.mode='album';go('preview')}
 
 /* ---------- PREVIEW ---------- */
@@ -567,7 +562,7 @@ function renderProjectView(){const key=S.active;const proj=activeProject();const
   const slides=[renderCover(proj)].concat(proj.pages.map(renderPageHTML));
   $('#flipTrack').innerHTML=slides.map(s=>`<div>${s}</div>`).join('');
   S.flipIndex=0;updateFlipPos();
-  $('#pv-title').value=proj.title;
+  $('#pv-title').value=proj.title;$('#pv-msg').value=proj.message||'';
   $('#pvDesigns').innerHTML=COVER_DESIGNS.map(d=>`<button type="button" class="covpick" aria-pressed="${d.k===proj.design}" data-design="${d.k}">${renderCover({...proj,design:d.k})}<span>${d.label}</span></button>`).join('');
   $('#pvCovers').innerHTML=COVERS.map(c=>`<button type="button" class="chip" aria-pressed="${c.k===proj.cover}" data-cover="${c.k}"><b>${c.label}</b><span>${yen(c.base)} ＋ ${yen(PER_PAGE)}/ページ</span></button>`).join('');
   $('#pvColors').innerHTML=COLORS.map(c=>`<button type="button" class="chip swatch" style="--c:${c.c}" aria-pressed="${c.k===proj.color}" data-color="${c.k}"><i></i><b>${c.label}</b></button>`).join('');
@@ -581,6 +576,8 @@ $('#flipNext').addEventListener('click',()=>flipTo(S.flipIndex+1));
 $('#flipTrack').addEventListener('scroll',()=>{const track=$('#flipTrack');const w=track.clientWidth||1;
   const idx=Math.round(track.scrollLeft/w);if(idx!==S.flipIndex){S.flipIndex=idx;updateFlipPos()}});
 $('#pv-title').addEventListener('input',e=>{const proj=activeProject();proj.title=e.target.value;
+  const track=$('#flipTrack');if(track.children[0])track.children[0].innerHTML=renderCover(proj)});
+$('#pv-msg').addEventListener('input',e=>{const proj=activeProject();proj.message=e.target.value;
   const track=$('#flipTrack');if(track.children[0])track.children[0].innerHTML=renderCover(proj)});
 $('#pvDesigns').addEventListener('click',e=>{const b=e.target.closest('[data-design]');if(!b)return;activeProject().design=b.dataset.design;renderProjectView()});
 $('#pvCovers').addEventListener('click',e=>{const b=e.target.closest('[data-cover]');if(!b)return;activeProject().cover=b.dataset.cover;renderProjectView();updateCta()});
@@ -646,10 +643,10 @@ function renderAdminOrder(o,i){const mini=o.project?renderCover(o.project):nenga
   </div></div>`}
 function renderAdmin(){$('#orders').innerHTML=S.orders.map((o,i)=>renderAdminOrder(o,i)).join('')}
 $('#orders').addEventListener('change',e=>{const i=e.target.dataset.ord;if(i==null)return;S.orders[+i].status=+e.target.value;renderAdmin()});
-(function seedSample(){const photos=SAMPLE.babies.slice(0,6);const pages=layoutPages('growth',photos);
-  const proj={photos,pages,title:'陽葵のはじめての1年',cover:'hard',color:'rose',design:'frame',status:'ordered'};
+(function seedSample(){const photos=SAMPLE.babies.slice(0,6);const pages=layoutPages('year1',photos);
+  const proj={photos,pages,title:'陽葵のはじめての1年',message:THEMES.year1.msg,cover:'hard',color:'rose',design:'frame',status:'ordered'};
   const total=Math.round((COVERS[1].base+PER_PAGE*pages.length)*1.8)+330;
-  S.orders.push({no:'HG-261009-4821',sample:true,at:new Date(),theme:'growth',project:proj,grand:true,gift:true,total,status:1,
+  S.orders.push({no:'HG-261009-4821',sample:true,at:new Date(),theme:'year1',project:proj,grand:true,gift:true,total,status:1,
     to:'田中 彩　〒150-0001 東京都渋谷区神宮前1-1-1',gto:'田中 正雄　〒980-0021 宮城県仙台市青葉区中央2-2-2'})})();
 
 /* ---------- navigation ---------- */
