@@ -158,6 +158,10 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .covpick[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--accent)}
 .covpick .cover{width:100%;aspect-ratio:1}
 .covpick span{font-size:11px;color:var(--muted)}
+.cvphotogrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.cvphoto{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:2px solid transparent;padding:0}
+.cvphoto img{width:100%;height:100%;object-fit:cover;display:block}
+.cvphoto[aria-pressed="true"]{border-color:var(--accent)}
 
 /* bulk photo picker */
 .pickgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
@@ -316,6 +320,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
         <h3>表紙</h3>
         <div class="fld"><label for="pv-title">表紙のタイトル</label><input type="text" id="pv-title"></div>
         <div class="fld"><label for="pv-msg">記念のメッセージ</label><input type="text" id="pv-msg"></div>
+        <div class="fld"><label>表紙の写真</label><div class="cvphotogrid" id="pvCoverPhoto"></div></div>
         <div class="fld"><label>デザイン</label><div class="covgrid" id="pvDesigns"></div></div>
         <div class="fld"><label>表紙の素材</label><div class="chips" id="pvCovers"></div></div>
         <div class="fld"><label>色</label><div class="chips" id="pvColors"></div></div>
@@ -475,7 +480,8 @@ const PER_PAGE=350;
 const COLORS=[{k:'sage',label:'セージ',c:'#93A797',t:'#FBFAF6'},{k:'linen',label:'リネン',c:'#DCD1BE',t:'#4B4239'},{k:'rose',label:'ローズ',c:'#C99F98',t:'#FBFAF6'},{k:'navy',label:'ネイビー',c:'#48536A',t:'#F1EDE4'}];
 const COVER_DESIGNS=[{k:'window',label:'ウィンドウ'},{k:'full',label:'フルブリード'},{k:'frame',label:'クラシック'}];
 const I=s=>`<img src="${s}" alt="">`;
-function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const pg=a.pages[0];const img=pg?pg.photos[0]:SAMPLE.babies[0];
+const coverImgOf=a=>a.coverPhoto||(a.pages[0]&&a.pages[0].photos[0])||SAMPLE.babies[0];
+function renderCover(a){const col=COLORS.find(x=>x.k===a.color)||COLORS[0];const img=coverImgOf(a);
   const design=a.design||'window';const title=`<div class="cv-title">${esc(a.title)}</div>`,sub=`<div class="cv-sub">${esc(a.message||'')}</div>`;
   const motif=a.themeKey?`<div class="cv-motif">${motifSVG(a.themeKey)}</div>`:'';
   let inner;
@@ -572,6 +578,8 @@ function renderProjectView(){const key=S.active;const proj=activeProject();const
   $('#flipDots').innerHTML=slides.map((_,i)=>`<button type="button" data-dot="${i}" aria-label="${i+1}枚目"></button>`).join('');
   S.flipIndex=0;updateFlipPos();
   $('#pv-title').value=proj.title;$('#pv-msg').value=proj.message||'';
+  const coverImg=coverImgOf(proj);
+  $('#pvCoverPhoto').innerHTML=proj.photos.map((s,i)=>`<button type="button" class="cvphoto" aria-pressed="${s===coverImg}" data-coverphoto="${i}"><img src="${s}" alt=""></button>`).join('');
   $('#pvDesigns').innerHTML=COVER_DESIGNS.map(d=>`<button type="button" class="covpick" aria-pressed="${d.k===proj.design}" data-design="${d.k}">${renderCover({...proj,design:d.k})}<span>${d.label}</span></button>`).join('');
   $('#pvCovers').innerHTML=COVERS.map(c=>`<button type="button" class="chip" aria-pressed="${c.k===proj.cover}" data-cover="${c.k}"><b>${c.label}</b><span>${yen(c.base)} ＋ ${yen(PER_PAGE)}/ページ</span></button>`).join('');
   $('#pvColors').innerHTML=COLORS.map(c=>`<button type="button" class="chip swatch" style="--c:${c.c}" aria-pressed="${c.k===proj.color}" data-color="${c.k}"><i></i><b>${c.label}</b></button>`).join('');
@@ -590,6 +598,8 @@ $('#pv-title').addEventListener('input',e=>{const proj=activeProject();proj.titl
   const track=$('#flipTrack');if(track.children[0])track.children[0].innerHTML=renderCover(proj)});
 $('#pv-msg').addEventListener('input',e=>{const proj=activeProject();proj.message=e.target.value;
   const track=$('#flipTrack');if(track.children[0])track.children[0].innerHTML=renderCover(proj)});
+$('#pvCoverPhoto').addEventListener('click',e=>{const b=e.target.closest('[data-coverphoto]');if(!b)return;
+  const proj=activeProject();proj.coverPhoto=proj.photos[+b.dataset.coverphoto];renderProjectView()});
 $('#pvDesigns').addEventListener('click',e=>{const b=e.target.closest('[data-design]');if(!b)return;activeProject().design=b.dataset.design;renderProjectView()});
 $('#pvCovers').addEventListener('click',e=>{const b=e.target.closest('[data-cover]');if(!b)return;activeProject().cover=b.dataset.cover;renderProjectView();updateCta()});
 $('#pvColors').addEventListener('click',e=>{const b=e.target.closest('[data-color]');if(!b)return;activeProject().color=b.dataset.color;renderProjectView()});
