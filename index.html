@@ -49,20 +49,12 @@ h1{font-family:var(--f-mincho);font-size:25px;line-height:1.45;margin:0;text-wra
 .lede{margin:0;color:var(--muted);font-size:14px}
 .label{font-size:12px;letter-spacing:.12em;color:var(--muted);font-weight:500;margin:0}
 
-/* season banner */
-.season{display:flex;align-items:center;gap:14px;border:0;width:100%;text-align:left;background:var(--rose-soft);border-radius:14px;padding:14px 16px}
-.season b{display:block;font-size:15px}
-.season span{font-size:12.5px;color:var(--muted)}
-.season .go{margin-left:auto;font-size:13px;color:var(--rose);font-weight:700;white-space:nowrap}
-.season .yr{font-family:var(--f-latin);font-size:30px;color:var(--rose);line-height:1}
-
 /* template grid */
 .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .tcard{border:0;background:var(--surface);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;text-align:left;transition:transform .15s}
 .tcard:hover{transform:translateY(-2px)}
 .tcard .stage{background:var(--wall);border-radius:9px;aspect-ratio:1/1;display:grid;place-items:center;padding:10px;pointer-events:none}
 .tcard .stage>div{width:72%}
-.tcard .stage.card>div{width:58%}
 .tcard .occ{font-size:11px;color:var(--accent);font-weight:700;letter-spacing:.04em}
 .tcard .nm{font-size:14.5px;font-weight:700;line-height:1.35}
 .tcard .pr{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
@@ -74,7 +66,6 @@ h1{font-family:var(--f-mincho);font-size:25px;line-height:1.45;margin:0;text-wra
 /* editor */
 .wall{background:var(--wall);border-radius:16px;padding:28px 20px;display:grid;place-items:center}
 .wall>div{width:76%;max-width:320px}
-.wall.card>div{width:62%;max-width:260px}
 .edhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .edhead h2{margin:0;font-size:19px;font-family:var(--f-mincho)}
 .edhead span{font-size:12px;color:var(--muted)}
@@ -82,12 +73,6 @@ h1{font-family:var(--f-mincho);font-size:25px;line-height:1.45;margin:0;text-wra
 .panel{background:var(--surface);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
 .panel h3{margin:0;font-size:14px;display:flex;justify-content:space-between;align-items:center}
 .panel h3 small{font-weight:400;color:var(--muted);font-size:12px}
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px}
-.slot{border:0;padding:0;background:transparent;display:flex;flex-direction:column;gap:4px;align-items:stretch}
-.slot .th{position:relative;aspect-ratio:1;border-radius:10px;overflow:hidden;background:var(--wall)}
-.slot img{width:100%;height:100%;object-fit:cover;display:block}
-.slot .plus{position:absolute;right:4px;bottom:4px;width:22px;height:22px;border-radius:50%;background:var(--surface);color:var(--ink);display:grid;place-items:center;font-size:11px}
-.slot span.l{font-size:11px;color:var(--muted);text-align:center}
 .hint{font-size:12px;color:var(--muted);margin:0}
 .linkbtn{border:0;background:none;color:var(--accent);font-size:12px;padding:0;text-decoration:underline;text-underline-offset:3px}
 .ghost{border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:12px;padding:11px;font-weight:700;width:100%}
@@ -200,25 +185,12 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .flip::-webkit-scrollbar{display:none}
 .flip>div{flex:0 0 100%;scroll-snap-align:center;display:grid;place-items:center;padding:0 30px;box-sizing:border-box}
 .flip .card-print,.flip .cover{width:100%;max-width:280px}
-.flipnav{display:flex;align-items:center;justify-content:center;gap:16px}
-.flipnav button{border:0;background:var(--surface);width:34px;height:34px;border-radius:50%;font-size:16px;box-shadow:inset 0 0 0 1px var(--line)}
+.flipnav{display:flex;align-items:center;justify-content:center;gap:12px}
+.flipnav button{border:0;background:var(--surface);width:34px;height:34px;border-radius:50%;font-size:16px;box-shadow:inset 0 0 0 1px var(--line);flex:none}
 .flipnav button:disabled{opacity:.3}
-.flipnav span{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:52px;text-align:center}
-
-/* login */
-.login{gap:18px}
-.login .wall{padding:26px 20px}
-.login .wall>div{width:44%;max-width:180px}
-.login h1{font-size:23px}
-.login form{gap:14px}
-.primary{border:0;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:16px;padding:13px}
-.primary:hover{filter:brightness(1.05)}
-.linebtn{border:0;border-radius:12px;background:#06C755;color:#FFFFFF;font-weight:700;font-size:15px;padding:12px}
-.or{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
-.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
-.pw{position:relative}
-.pw input{padding-right:60px}
-.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--accent);font-size:12px;padding:6px}
+.flipdots{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;max-width:220px}
+.flipdots button{width:6px;height:6px;border-radius:50%;background:var(--line);border:0;padding:0;flex:none}
+.flipdots button[aria-pressed="true"]{background:var(--accent);width:16px;border-radius:3px;transition:width .15s}
 
 /* sticky CTA */
 .cta{position:sticky;bottom:0;margin-inline:-16px;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line)}
@@ -230,16 +202,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
 .paper{position:relative;aspect-ratio:var(--r);background:var(--paper);color:var(--paperink);container-type:inline-size;overflow:hidden;font-family:var(--f-round)}
 .paper img{width:100%;height:100%;object-fit:cover;display:block}
 .t{position:absolute;inset:0;box-sizing:border-box}
-
-/* 年賀状 */
-.ny{display:flex;flex-direction:column;padding:8cqw 8cqw 6cqw;gap:3.5cqw}
-.ny-top{display:flex;justify-content:space-between;align-items:flex-end}
-.ny-year{font-family:var(--f-latin);font-size:17cqw;line-height:.8;color:var(--seal)}
-.ny-hny{font-family:var(--f-latin);font-style:italic;font-size:5.4cqw;text-align:right;line-height:1.1}
-.ny-hny small{display:block;font-style:normal;font-family:var(--f-mincho);font-size:2.8cqw;color:var(--papermuted);margin-top:1cqw}
-.ny-photo{flex:1;min-height:0;border-radius:2cqw;overflow:hidden}
-.ny-msg{font-family:var(--f-mincho);font-size:3.3cqw;line-height:1.9;white-space:pre-line;text-align:center}
-.ny-foot{display:flex;justify-content:space-between;gap:2cqw;font-size:3cqw;color:var(--papermuted);font-family:var(--f-mincho)}
 
 /* auto-layout album pages */
 .psingle{display:flex;flex-direction:column}
@@ -273,39 +235,14 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
   </header>
 
   <main>
-    <!-- LOGIN -->
-    <section id="v-login" class="login" hidden>
-      <div class="wall" id="lgArt"></div>
-      <div style="display:flex;flex-direction:column;gap:6px">
-        <h1>おかえりなさい</h1>
-        <p class="lede">ログインして、赤ちゃんのアルバムづくりを始めましょう。</p>
-      </div>
-      <form class="panel" id="lgForm" novalidate>
-        <div class="fld"><label for="lg-user">ユーザー名</label><input type="text" id="lg-user" autocomplete="username" inputmode="numeric"></div>
-        <div class="fld"><label for="lg-pass">パスワード</label><div class="pw"><input type="password" id="lg-pass" autocomplete="current-password"><button type="button" id="pwToggle">表示</button></div></div>
-        <p class="err" id="lgErr" hidden></p>
-        <button type="submit" class="primary">ログイン</button>
-        <div class="or">または</div>
-        <button type="button" class="linebtn" id="lineBtn">LINEでログイン</button>
-        <p class="hint" id="lineHint" hidden>LINEログインは本番版で対応予定です。</p>
-      </form>
-    </section>
-
     <!-- HOME -->
     <section id="v-home">
       <div style="display:flex;flex-direction:column;gap:8px">
         <h1>赤ちゃんの瞬間を、<br>1冊のアルバムに。</h1>
         <p class="lede">写真をまとめて選ぶだけ。テーマに合わせて自動でレイアウトし、印刷・製本してお届けします。</p>
       </div>
-      <button type="button" class="season" data-open="nengajo">
-        <span class="yr">2027</span>
-        <span><b>年賀状 早割受付中</b><span>11月30日までのご注文で10%OFF</span></span>
-        <span class="go">作る ›</span>
-      </button>
       <p class="label">アルバムのテーマからえらぶ</p>
       <div class="tgrid" id="tgrid"></div>
-      <p class="label">プリントギフト・これだけで注文できます</p>
-      <div class="tgrid" id="sgrid"></div>
       <div class="trust">
         <div><b>写真は30日で削除</b>発送完了後、写真データを削除します</div>
         <div><b>お届け10〜14日</b>発送時にLINEでお知らせ</div>
@@ -332,7 +269,7 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
       <div class="flipwrap"><div class="flip" id="flipTrack"></div></div>
       <div class="flipnav">
         <button type="button" id="flipPrev" aria-label="前のページ">‹</button>
-        <span id="flipPos"></span>
+        <div class="flipdots" id="flipDots"></div>
         <button type="button" id="flipNext" aria-label="次のページ">›</button>
       </div>
       <div class="panel">
@@ -345,25 +282,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
       </div>
       <button type="button" class="ghost" id="pvEditPhotos"></button>
       <div><button type="button" class="linkbtn" id="pvSaveDraft">あとで仕上げる（一時保存してホームへ）</button></div>
-    </section>
-
-    <!-- EDIT (年賀状 only) -->
-    <section id="v-edit" hidden>
-      <div class="edhead"><h2>年賀状 2027</h2><span>お正月・ひつじ年</span></div>
-      <div class="wall card" id="edWall"></div>
-      <div class="panel">
-        <h3>写真</h3>
-        <div class="slots"><button type="button" class="slot" id="ngSlot"><div class="th mine"><img id="ngImg" src="" alt=""><span class="plus">変更</span></div><span class="l">写真</span></button></div>
-        <p class="hint">タップして写真を選んでください。</p>
-      </div>
-      <div class="panel">
-        <h3>入れる文字</h3>
-        <div class="fields" id="fields"></div>
-      </div>
-      <div class="panel">
-        <h3>枚数</h3>
-        <div class="chips" id="sizes"></div>
-      </div>
     </section>
 
     <!-- ORDER -->
@@ -422,7 +340,6 @@ textarea{resize:vertical;min-height:84px;line-height:1.6}
         <p class="lede">運営者向けの画面です。受注内容を確認し、印刷・発送の状態を更新します。</p>
       </div>
       <div id="orders" style="display:flex;flex-direction:column;gap:12px"></div>
-      <div><button type="button" class="linkbtn" id="logout">ログアウト</button></div>
     </section>
   </main>
 
@@ -513,54 +430,34 @@ function themeCoverObj(key){const proj=S.projects[key];if(proj)return proj;
   const idx=THEME_ORDER.indexOf(key);const demo=SAMPLE.babies.slice(idx*4,idx*4+4);
   return {title:THEMES[key].title,message:THEMES[key].msg,themeKey:key,cover:'hard',color:COLORS[idx%COLORS.length].k,design:'window',pages:layoutPages(key,demo)}}
 
-/* ---------- 年賀状 (standalone gift item) ---------- */
-const FIELD={
-  name:{l:'お子さまのお名前',v:'結翔'},
-  birth:{l:'生年月日',v:'2026-09-28',t:'date'},
-  family:{l:'ご家族のお名前',v:'佐藤 健太・美咲',full:1},
-  greeting:{l:'あいさつ文',v:'昨年は大変お世話になりました\n家族がひとり増えました\n本年もよろしくお願いいたします',t:'textarea',full:1}
-};
-const CARDS=[{label:'10枚',dim:'はがき',price:1980},{label:'30枚',dim:'はがき',price:4480},{label:'50枚',dim:'はがき',price:6980}];
-const D=s=>{const d=new Date((s||'')+'T00:00:00');return isNaN(d)?new Date('2026-09-28T00:00:00'):d};
-function nengajoHTML(f,photo){return `<div class="card-print"><div class="paper" style="--r:100/148"><div class="t ny">
-  <div class="ny-top"><div class="ny-year">2027</div><div class="ny-hny">Happy New Year<small>令和9年 元旦</small></div></div>
-  <div class="ny-photo">${I(photo)}</div><div class="ny-msg">${esc(f.greeting)}</div>
-  <div class="ny-foot"><span>${esc(f.family)}</span><span>${esc(f.name)}（${D(f.birth).getMonth()+1}月生まれ）</span></div></div></div></div>`}
-
 /* ---------- dates ---------- */
 const add=(d,n)=>{const x=new Date(d);x.setDate(x.getDate()+n);return x};
 const WD='日月火水木金土';const md=d=>`${d.getMonth()+1}月${d.getDate()}日(${WD[d.getDay()]})`;
 const etaText=()=>{const t=new Date();return `${md(add(t,10))} 〜 ${md(add(t,14))}`};
 
 /* ---------- state ---------- */
-const S={view:'home',prev:'home',mode:'album',active:null,projects:{},pickSel:[],f:{},ngPhoto:null,size:0,grand:false,gift:false,orders:[],last:null};
-for(const k in FIELD)S.f[k]=FIELD[k].v;
+const S={view:'home',prev:'home',active:null,projects:{},pickSel:[],grand:false,gift:false,orders:[],last:null};
 const activeProject=()=>S.projects[S.active];
 
 /* ---------- pricing ---------- */
-function calc(){let L,sz=null;
-  if(S.mode==='album'){const a=activeProject();const cv=COVERS.find(c=>c.k===a.cover),n=a.pages.length,b=cv.base+PER_PAGE*n;
-    L=[[`${THEMES[S.active].title}（${cv.label}・${n}ページ）`,b]];if(S.grand)L.push(['祖父母さま宛 2冊目（20%OFF）',Math.round(b*.8)])}
-  else{sz=CARDS[S.size];L=[[`年賀状 2027（${sz.label}）`,sz.price]];if(S.grand)L.push(['祖父母さま宛 2点目（20%OFF）',Math.round(sz.price*.8)])}
+function calc(){const a=activeProject();const cv=COVERS.find(c=>c.k===a.cover),n=a.pages.length,b=cv.base+PER_PAGE*n;
+  const L=[[`${THEMES[S.active].title}（${cv.label}・${n}ページ）`,b]];if(S.grand)L.push(['祖父母さま宛 2冊目（20%OFF）',Math.round(b*.8)]);
   if(S.grand&&S.gift)L.push(['ギフト包装・のし',330]);
-  const sub=L.reduce((a,l)=>a+l[1],0),n=S.grand?2:1,ship=sub>=5000?0:550*n;
-  L.push([`送料（${n}か所）${ship?'':'　¥5,000以上で無料'}`,ship]);return {L,total:sub+ship,sz}}
+  const sub=L.reduce((a,l)=>a+l[1],0),n2=S.grand?2:1,ship=sub>=5000?0:550*n2;
+  L.push([`送料（${n2}か所）${ship?'':'　¥5,000以上で無料'}`,ship]);return {L,total:sub+ship}}
 
 /* ---------- HOME ---------- */
 function renderHome(){
   $('#tgrid').innerHTML=THEME_ORDER.map(k=>{const t=THEMES[k];const proj=S.projects[k];
     const sub=proj?`写真${proj.photos.length}枚・編集を続ける ›`:'はじめる ›';
     return `<button type="button" class="tcard" data-theme="${k}"><div class="stage"><div>${renderCover(themeCoverObj(k))}</div></div>
-    <div><div class="occ">${t.occ}</div><div class="nm">${t.title}</div><div class="pr">${sub}</div></div></button>`}).join('');
-  $('#sgrid').innerHTML=`<button type="button" class="tcard" data-open="nengajo"><div class="stage card"><div>${nengajoHTML(S.f,S.ngPhoto||SAMPLE.babies[8])}</div></div>
-    <div><div class="occ">お正月・ひつじ年</div><div class="nm">年賀状 2027</div><div class="pr">${yen(CARDS[0].price)}〜</div></div></button>`}
+    <div><div class="occ">${t.occ}</div><div class="nm">${t.title}</div><div class="pr">${sub}</div></div></button>`}).join('')}
 document.addEventListener('click',e=>{
-  const tb=e.target.closest('[data-theme]');if(tb){openTheme(tb.dataset.theme);return}
-  const ob=e.target.closest('[data-open]');if(ob){openNengajo();return}});
+  const tb=e.target.closest('[data-theme]');if(tb)openTheme(tb.dataset.theme)});
 
 /* ---------- PICK ---------- */
 function openTheme(key){S.active=key;const proj=S.projects[key];
-  if(proj){S.mode='album';go('preview')}else{S.pickSel=[];go('pick')}}
+  if(proj)go('preview');else{S.pickSel=[];go('pick')}}
 function renderPick(){const t=THEMES[S.active];
   $('#pkTitle').textContent=t.title;$('#pkCount').textContent=`${S.pickSel.length} / ${PAGE_CAP}枚`;
   $('#pkGrid').innerHTML=S.pickSel.map((s,i)=>`<button type="button" class="pickth" data-rm="${i}"><img src="${s}" alt=""><span class="rm">×</span></button>`).join('')}
@@ -576,19 +473,19 @@ $('#pickClose').addEventListener('click',()=>{$('#pickerBg').hidden=true});
 $('#pickerBg').addEventListener('click',e=>{if(e.target.id==='pickerBg')$('#pickerBg').hidden=true});
 function readFile(f){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,1600/Math.max(im.width,im.height));const c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.88))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(f)})}
 $('#file').addEventListener('change',async e=>{const files=[...e.target.files];if(!files.length)return;
-  if(S.view==='edit'){try{S.ngPhoto=await readFile(files[0])}catch(_){}renderNengajoPreview();return}
   for(const f of files){if(S.pickSel.length>=PAGE_CAP)break;try{S.pickSel.push(await readFile(f))}catch(_){}}
   renderPick();updateCta()});
 function generateLayout(){const key=S.active;const photos=S.pickSel.slice(0,PAGE_CAP);const pages=layoutPages(key,photos);
   const prev=S.projects[key];
   S.projects[key]={photos,pages,themeKey:key,title:(prev&&prev.title)||THEMES[key].title,message:(prev&&prev.message)||THEMES[key].msg,cover:(prev&&prev.cover)||'hard',color:(prev&&prev.color)||'sage',design:(prev&&prev.design)||'window',status:'draft'};
-  S.mode='album';go('preview')}
+  go('preview')}
 
 /* ---------- PREVIEW ---------- */
 function renderProjectView(){const key=S.active;const proj=activeProject();const t=THEMES[key];
   $('#pvTitle').textContent=t.title;$('#pvSub').textContent=`${proj.pages.length}ページ・写真${proj.photos.length}枚`;
   const slides=[renderCover(proj)].concat(proj.pages.map(renderPageHTML));
   $('#flipTrack').innerHTML=slides.map(s=>`<div>${s}</div>`).join('');
+  $('#flipDots').innerHTML=slides.map((_,i)=>`<button type="button" data-dot="${i}" aria-label="${i+1}枚目"></button>`).join('');
   S.flipIndex=0;updateFlipPos();
   $('#pv-title').value=proj.title;$('#pv-msg').value=proj.message||'';
   $('#pvDesigns').innerHTML=COVER_DESIGNS.map(d=>`<button type="button" class="covpick" aria-pressed="${d.k===proj.design}" data-design="${d.k}">${renderCover({...proj,design:d.k})}<span>${d.label}</span></button>`).join('');
@@ -596,11 +493,13 @@ function renderProjectView(){const key=S.active;const proj=activeProject();const
   $('#pvColors').innerHTML=COLORS.map(c=>`<button type="button" class="chip swatch" style="--c:${c.c}" aria-pressed="${c.k===proj.color}" data-color="${c.k}"><i></i><b>${c.label}</b></button>`).join('');
   $('#pvEditPhotos').textContent=`写真を変更する（${proj.photos.length}枚）`}
 function updateFlipPos(){const track=$('#flipTrack');const total=track.children.length;
-  $('#flipPos').textContent=`${S.flipIndex+1} / ${total}`;$('#flipPrev').disabled=S.flipIndex===0;$('#flipNext').disabled=S.flipIndex===total-1}
+  $('#flipPrev').disabled=S.flipIndex===0;$('#flipNext').disabled=S.flipIndex===total-1;
+  $('#flipDots').querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',i===S.flipIndex?'true':'false'))}
 function flipTo(i){const track=$('#flipTrack');i=Math.max(0,Math.min(track.children.length-1,i));S.flipIndex=i;
   track.children[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});updateFlipPos()}
 $('#flipPrev').addEventListener('click',()=>flipTo(S.flipIndex-1));
 $('#flipNext').addEventListener('click',()=>flipTo(S.flipIndex+1));
+$('#flipDots').addEventListener('click',e=>{const b=e.target.closest('[data-dot]');if(b)flipTo(+b.dataset.dot)});
 $('#flipTrack').addEventListener('scroll',()=>{const track=$('#flipTrack');const w=track.clientWidth||1;
   const idx=Math.round(track.scrollLeft/w);if(idx!==S.flipIndex){S.flipIndex=idx;updateFlipPos()}});
 $('#pv-title').addEventListener('input',e=>{const proj=activeProject();proj.title=e.target.value;
@@ -614,55 +513,35 @@ function editProjectPhotos(){S.pickSel=activeProject().photos.slice();go('pick')
 $('#pvEditPhotos').addEventListener('click',editProjectPhotos);
 $('#pvSaveDraft').addEventListener('click',()=>{activeProject().status='draft';go('home')});
 
-/* ---------- EDIT (年賀状) ---------- */
-function openNengajo(){S.mode='single';
-  $('#fields').innerHTML=['family','greeting','name'].map(n=>{const d=FIELD[n];const id='f-'+n;const ev=esc(S.f[n]);
-    const inp=d.t==='textarea'?`<textarea id="${id}" data-f="${n}">${ev}</textarea>`:`<input type="${d.t||'text'}" id="${id}" data-f="${n}" value="${ev}">`;
-    return `<div class="fld${d.full?' full':''}"><label for="${id}">${d.l}</label>${inp}</div>`}).join('');
-  $('#sizes').innerHTML=CARDS.map((s,i)=>`<button type="button" class="chip" aria-pressed="${i===S.size}" data-size="${i}"><b>${s.label}</b><span>${s.dim}</span><span>${yen(s.price)}</span></button>`).join('');
-  renderNengajoPreview();go('edit')}
-function renderNengajoPreview(){const photo=S.ngPhoto||SAMPLE.babies[8];
-  $('#edWall').innerHTML=`<div>${nengajoHTML(S.f,photo)}</div>`;$('#ngImg').src=photo;updateCta()}
-$('#fields').addEventListener('input',e=>{const n=e.target.dataset.f;if(!n)return;S.f[n]=e.target.value;renderNengajoPreview()});
-$('#sizes').addEventListener('click',e=>{const b=e.target.closest('[data-size]');if(!b)return;S.size=+b.dataset.size;
-  $('#sizes').querySelectorAll('[data-size]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.size===b.dataset.size));updateCta()});
-$('#ngSlot').addEventListener('click',()=>{$('#file').value='';$('#file').click()});
-
 /* ---------- ORDER ---------- */
-function renderOrder(){const {L,total,sz}=calc();
-  if(S.mode==='album'){const a=activeProject();const cv=COVERS.find(c=>c.k===a.cover);$('#oMini').innerHTML=renderCover(a);
-    $('#oSpec').innerHTML=`<b>${esc(a.title)}</b>${THEMES[S.active].title}・${cv.label}<br>${a.pages.length}ページ・写真${a.photos.length}枚`}
-  else{const photo=S.ngPhoto||SAMPLE.babies[8];$('#oMini').innerHTML=nengajoHTML(S.f,photo);
-    $('#oSpec').innerHTML=`<b>年賀状 2027</b>${sz.label}（${sz.dim}）<br>写真1枚・文字入力済み`}
+function renderOrder(){const {L,total}=calc();
+  const a=activeProject();const cv=COVERS.find(c=>c.k===a.cover);$('#oMini').innerHTML=renderCover(a);
+  $('#oSpec').innerHTML=`<b>${esc(a.title)}</b>${THEMES[S.active].title}・${cv.label}<br>${a.pages.length}ページ・写真${a.photos.length}枚`;
   $('#lines').innerHTML=L.map(l=>`<div><span>${l[0]}</span><span>${yen(l[1])}</span></div>`).join('')+`<div class="tot"><span>合計（税込）</span><span>${yen(total)}</span></div>`;
   $('#eta').textContent=etaText();$('#grandBox').hidden=!S.grand;updateCta()}
 $('#grand').addEventListener('change',e=>{S.grand=e.target.checked;renderOrder()});
 $('#gift').addEventListener('change',e=>{S.gift=e.target.checked;renderOrder()});
 function submitOrder(){const err=$('#oErr');
-  if(S.mode==='album'&&activeProject().pages.length<MIN_PHOTOS){err.textContent=`${MIN_PHOTOS}ページ以上で注文できます。`;err.hidden=false;return}
+  if(activeProject().pages.length<MIN_PHOTOS){err.textContent=`${MIN_PHOTOS}ページ以上で注文できます。`;err.hidden=false;return}
   const need=['o-name','o-zip','o-addr','o-tel'].concat(S.grand?['g-name','g-zip','g-addr']:[]);
   const miss=need.filter(id=>!$('#'+id).value.trim());
   if(miss.length){err.textContent='お届け先に未入力の項目があります。';err.hidden=false;$('#'+miss[0]).focus();return}
   if(!$('#consent').checked){err.textContent='写真の取り扱いについて同意のチェックをお願いします。';err.hidden=false;return}
   err.hidden=true;const t=new Date();const no='HG-'+String(t.getFullYear()).slice(2)+String(t.getMonth()+1).padStart(2,'0')+String(t.getDate()).padStart(2,'0')+'-'+String(Math.floor(Math.random()*9000)+1000);
   const v=id=>$('#'+id).value.trim();const c=calc();
-  const o={no,at:t,grand:S.grand,gift:S.grand&&S.gift,total:c.total,status:0,
+  const o={no,at:t,grand:S.grand,gift:S.grand&&S.gift,total:c.total,status:0,theme:S.active,project:JSON.parse(JSON.stringify(activeProject())),
     to:`${v('o-name')}　〒${v('o-zip')} ${v('o-addr')}`,gto:S.grand?`${v('g-name')}　〒${v('g-zip')} ${v('g-addr')}`:''};
-  if(S.mode==='album'){o.theme=S.active;o.project=JSON.parse(JSON.stringify(activeProject()));o.project.status='ordered';activeProject().status='ordered'}
-  else{o.ngPhoto=S.ngPhoto||SAMPLE.babies[8];o.f={...S.f};o.size=c.sz}
+  o.project.status='ordered';activeProject().status='ordered';
   S.orders.unshift(o);S.last=o;
   $('#dNo').textContent='注文番号 '+no;$('#dEta').textContent=etaText();
-  if(o.project){$('#dWall').className='wall album';$('#dWall').innerHTML=`<div>${renderCover(o.project)}</div>`}
-  else{$('#dWall').className='wall card';$('#dWall').innerHTML=`<div>${nengajoHTML(o.f,o.ngPhoto)}</div>`}
+  $('#dWall').className='wall album';$('#dWall').innerHTML=`<div>${renderCover(o.project)}</div>`;
   $('#consent').checked=false;go('done')}
 
 /* ---------- ADMIN ---------- */
 const ST=['受付','印刷中','発送済み'];
-function renderAdminOrder(o,i){const mini=o.project?renderCover(o.project):nengajoHTML(o.f,o.ngPhoto);
-  const title=o.project?THEMES[o.theme].title:'年賀状 2027';
-  const spec=o.project
-    ?`<dt>仕様</dt><dd>${COVERS.find(c=>c.k===o.project.cover).label}・${o.project.pages.length}ページ</dd><dt>表紙</dt><dd>${esc(o.project.title)}</dd><dt>写真</dt><dd>${o.project.photos.length}枚</dd>`
-    :`<dt>仕様</dt><dd>${o.size.label}</dd><dt>文字</dt><dd>${esc(o.f.name)} / ${esc(o.f.family)}</dd>`;
+function renderAdminOrder(o,i){const mini=renderCover(o.project);
+  const title=THEMES[o.theme].title;
+  const spec=`<dt>仕様</dt><dd>${COVERS.find(c=>c.k===o.project.cover).label}・${o.project.pages.length}ページ</dd><dt>表紙</dt><dd>${esc(o.project.title)}</dd><dt>写真</dt><dd>${o.project.photos.length}枚</dd>`;
   return `<div class="ord"><div class="mini">${mini}</div><div class="meta">
   <div class="row"><b>${title}</b><span class="pill s${o.status}">${ST[o.status]}</span></div>
   <div>${o.no}${o.sample?'　<span class="ex">サンプル注文</span>':''}</div>
@@ -678,43 +557,32 @@ $('#orders').addEventListener('change',e=>{const i=e.target.dataset.ord;if(i==nu
     to:'田中 彩　〒150-0001 東京都渋谷区神宮前1-1-1',gto:'田中 正雄　〒980-0021 宮城県仙台市青葉区中央2-2-2'})})();
 
 /* ---------- navigation ---------- */
-const VIEWS=['login','home','pick','preview','edit','order','done','admin'];
+const VIEWS=['home','pick','preview','order','done','admin'];
 function go(v){if(v==='admin'&&S.view!=='admin')S.prev=S.view;S.view=v;VIEWS.forEach(x=>$('#v-'+x).hidden=x!==v);
-  $('#back').hidden=v==='home'||v==='login';$('#adminBtn').hidden=v==='login';
+  $('#back').hidden=v==='home';
   if(v==='home')renderHome();if(v==='pick')renderPick();if(v==='preview')renderProjectView();
   if(v==='order')renderOrder();if(v==='admin')renderAdmin();
   updateCta();window.scrollTo(0,0)}
 function updateCta(){const b=$('#ctaBtn'),c=$('#cta');const v=S.view;
-  if(v==='edit'){c.hidden=false;b.textContent=`${yen(calc().total)}　注文手続きへ`}
-  else if(v==='pick'){c.hidden=false;const n=S.pickSel.length;b.textContent=n>=MIN_PHOTOS?`レイアウトを作成（${n}枚）›`:`あと${MIN_PHOTOS-n}枚選んでください`}
+  if(v==='pick'){c.hidden=false;const n=S.pickSel.length;b.textContent=n>=MIN_PHOTOS?`レイアウトを作成（${n}枚）›`:`あと${MIN_PHOTOS-n}枚選んでください`}
   else if(v==='preview'){c.hidden=false;b.textContent=`${yen(calc().total)}　注文手続きへ`}
   else if(v==='order'){c.hidden=false;b.textContent=`${yen(calc().total)}　注文を確定する`}
   else if(v==='done'){c.hidden=false;b.textContent='ホームに戻る'}
   else c.hidden=true}
 $('#ctaBtn').addEventListener('click',()=>{const v=S.view;
-  if(v==='edit')go('order');
-  else if(v==='pick'){if(S.pickSel.length>=MIN_PHOTOS)generateLayout()}
+  if(v==='pick'){if(S.pickSel.length>=MIN_PHOTOS)generateLayout()}
   else if(v==='preview')go('order');
   else if(v==='order')submitOrder();
   else if(v==='done')go('home')});
 $('#back').addEventListener('click',()=>{const v=S.view;
   if(v==='admin'){go(S.prev||'home');return}
   if(v==='preview'){editProjectPhotos();return}
-  if(v==='order'){go(S.mode==='album'?'preview':'edit');return}
+  if(v==='order'){go('preview');return}
   go('home')});
 $('#adminBtn').addEventListener('click',()=>go('admin'));
 $('#toAdmin').addEventListener('click',()=>go('admin'));
 
-/* ---------- login (demo only: credentials checked in the browser) ---------- */
-$('#lgArt').innerHTML=`<div>${nengajoHTML(S.f,SAMPLE.babies[0])}</div>`;
-$('#lgForm').addEventListener('submit',e=>{e.preventDefault();const u=$('#lg-user').value.trim(),p=$('#lg-pass').value;
-  if(u==='0826'&&p==='0826'){try{sessionStorage.setItem('hg-auth','1')}catch(_){}$('#lgErr').hidden=true;$('#lg-pass').value='';go('home')}
-  else{$('#lgErr').textContent='ユーザー名またはパスワードが違います。';$('#lgErr').hidden=false;$('#lg-pass').focus()}});
-$('#pwToggle').addEventListener('click',()=>{const i=$('#lg-pass');const show=i.type==='password';i.type=show?'text':'password';$('#pwToggle').textContent=show?'隠す':'表示'});
-$('#lineBtn').addEventListener('click',()=>{$('#lineHint').hidden=false});
-$('#logout').addEventListener('click',()=>{try{sessionStorage.removeItem('hg-auth')}catch(_){}$('#lg-user').value='';go('login')});
-let authed=false;try{authed=sessionStorage.getItem('hg-auth')==='1'}catch(_){}
-go(authed?'home':'login');
+go('home');
 })();
 </script>
 </body>
